@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    /* Background Colors */
+    --bg-default: #1f1e1e;
+    --bg-primary: #44caff;
+    --bg-secondary: #3b3b3b;
+    --bg-success: #2c631e;
+    --bg-warning: #ffd000;
+    --bg-danger: #8d1111;
+    --bg-dark: #4a4a4a;
+    --bg-light: #ffffff;
+    --bg-info: #d4d4d4;
+    --bg-black: #000000;
+
+    /* Font Colors */
+    --font-color-main: white;
+    --font-color-primary: #44caff;
+    --font-color-disable: gray;
+    --font-color-select: #259fcf;
+    --font-color-warning: #ead01f;
+    --font-color-error: #ff0000;
+    --font-color-dark: #4a4a4a;
+
+    /* Font Sizes */
+    --font-size-p: '12px';
+}
+
+@font-face {
+    font-family: 'InterRegular';
+    src: url('../fonts/Inter-Regular.ttf');
+    /* IE9 Compat Modes */
+}
+
+@font-face {
+    font-family: 'InterLight';
+    src: url('../fonts/Inter-Light.ttf');
+    /* IE9 Compat Modes */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100vh;
+    font-family: 'InterLight';
+    background-color: var(--bg-default);
+    color: var(--font-color-main);
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Layout */
+.custom-navbar {
+    position: sticky;
+    font-size: 1.5vh;
+    background-color: var(--bg-secondary);
+    color: var(--font-color-main);
+    height: 4vh;
+    display: flex;
+    align-items: center;
+}
+
+.horizontal-container {
+    /* toolbar + game-container */
+    overflow: hidden;
+    overflow-y: hidden;
+    display: flex;
+    margin: 0px !important;
+    padding: 0px !important;
+    background-color: #b9b9b9;
+}
+
+.toolbar {
+    margin: 0vw !important;
+    padding: 0vw !important;
+    width: 2vw;
+    height: 96vh;
+    background-color: var(--bg-secondary);
+}
+
+.game-container {
+    padding: 0px !important;
+    margin: 0px !important;
+    height: 96vh;
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+}
+
+/* Menus */
+
+
+
+/* Overrides */
+.custom-navbar .disabled {
+    color: var(--font-color-disable);
+}
+
+.custom-navbar div {
+    display: flex;
+    align-items: center;
+}
+
+
+
+/* Extras */
+
+.bgMain {
+    background-color: var(--bg-main) !important;
+}
+
+.bgSecondary {
+    background-color: var(--bg-secondary) !important;
+}
+
+.bgDark {
+    background-color: var(--bg-dark) !important;
+}
+
+.bgDefault {
+    background-color: var(--bg-default) !important;
+}
+
+.bgInfo {
+    background-color: var(--bg-info) !important;
+}
+
+.fontMain {
+    color: var(--font-color-main) !important;
+}
+
+.fontDisable {
+    color: var(--font-color-disable) !important;
+}
+
+.fontWarning {
+    color: var(--font-color-warning) !important;
+}
+
+.fontError {
+    color: var(--font-color-error) !important;
+}
+
+.fontDark {
+    color: var(--font-color-dark) !important;
+}
