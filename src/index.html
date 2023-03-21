@@ -39,8 +39,8 @@
 
         </div>
         <div class="game-container" id="game-container">
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                aria-controls="offcanvasRight">Toggle right offcanvas
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#right-offcanvas"
+                aria-controls="right-offcanvas">Toggle right offcanvas
 
             </button>
 
@@ -52,6 +52,10 @@
                 Set Tab Visibility
             </button>
 
+            <button type="button" class="btn btn-primary" id="test-modal-change">
+                Change Modal Title
+            </button>
+
 
 
 
@@ -61,75 +65,61 @@
 
     </div>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div id="menu-section">
+        
+    </div>
+
+    <!-- <div class="offcanvas offcanvas-end" tabindex="-1" id="right-offcanvas" aria-labelledby="right-offcanvas-title">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasRightLabel">
+            <h5 class="offcanvas-title" id="right-offcanvas-title">
 
             </h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                 aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
+        <div class="offcanvas-body" id="right-offcanvas-body">
 
         </div>
     </div>
 
-    <div class="modal fade" id="decisionModal" tabindex="-1">
+    
+
+    <div class="modal fade" id="submit-modal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
+                    <h5 class="modal-title" id="submit-modal-title">Modal title</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="submit-modal-body">
                     <p>Modal body text goes here.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-success" id="submit-modal-btn">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="confirmModal" tabindex="-1">
+    <div class="modal fade" id="alert-modal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
+                    <h5 class="modal-title" id="alert-modal-title">Modal title</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="alertModalBody">
                     <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Save changes</button>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="modal fade" id="alertModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    </div> -->
 
     <a id="downloadTerrainData" style="display:none"></a>
     <input id='invisible-file-upload' type='file' hidden/>
 
     <!-- <canvas class="webgl"></canvas> -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </body>
 
 </html>
