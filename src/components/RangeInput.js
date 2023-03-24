@@ -27,18 +27,17 @@ export class RangeInput extends Input {
     createInput() {
         this.input = el(`input.form-range`, this.inputProps);
         this.display = el("input.form-control range-display", {
-            type: "number",
+            type: "text",
             value: this.value,
             step: this.inputProps.step,
+            disabled: true,
         });
-
-        this.input.addEventListener("change", (event) => this.handleUpdate(event))
-
-
         this.inputContainer = el("div.row", [
             el("div.col-8 align-items-center justify-content-center d-flex", [this.input]),
             el("div.col-4 align-items-center justify-content-center d-flex", [this.display])
         ])
+
+        this.setInputEventListeners();
     }
 
     render() {

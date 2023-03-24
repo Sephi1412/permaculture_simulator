@@ -2,7 +2,7 @@ import { el, mount } from "redom";
 import onChange from 'on-change';
 
 export class Input {
-    constructor({ id, containerID, containerProps = {}, labelProps = {}, inputClass = "", inputProps = {}, callbacks = {} }) {
+    constructor({ id, containerID, containerProps = {}, labelProps = {}, inputClass = "", inputProps = {}, callbacks }) {
         /*
             Container Props: Mainly related to style
             Label Props: Mainly related to style. Also contains the label string
@@ -12,6 +12,10 @@ export class Input {
 
         */
         this.id = id;
+        if (!callbacks) {
+            console.log("NO CALLBACKS WERE DEFINED")
+        }
+
         this.containerID = containerID;
         this.inputClass = inputClass;
         this.inputProps = inputProps;
@@ -25,11 +29,18 @@ export class Input {
     createInput() {
         this.input = el(`input.${this.inputClass}`, this.inputProps);
         this.inputContainer = el("div.container", this.input);
-        this.input.addEventListener("change", (event) => this.handleUpdate(event))
+        this.setInputEventListeners();
+    }
+
+    setInputEventListeners() {
+        const types = Object.keys(this.callbacks);
+        types.forEach(type => {
+            this.input.addEventListener(type, (event) => this.handleUpdate(event))
+        });
     }
 
     createLabel() {
-        this.label = el("div.input-label w-50 justify-content-center d-flex", { textContent: "HELLO WORLD" })
+        this.label = el("div.input-label w-50 justify-content-center d-flex", { textContent: this.labelProps.textContent })
     }
 
     render() {
@@ -50,8 +61,14 @@ export class Input {
     useCallbacks(props) {
         const event = props.event;
         const eventCallback = this.callbacks[event.type];
-        eventCallback(props);
+        if (eventCallback)
+            eventCallback(props);
+        else 
+            defaultEventCallback(event);
     }
 
 }
 
+function defaultEventCallback(event) {
+    alert(`There's not callback defined for "${event.type}" events`)
+}

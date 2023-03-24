@@ -21,7 +21,8 @@ export class SelectInput extends Input {
         });
 
         this.input = el(`select.form-select`, options);
-        this.input.addEventListener("change", (event) => this.handleUpdate(event))
         this.inputContainer = el("div.mt-3", [this.input])
+
+        this.setInputEventListeners();
     }
 }

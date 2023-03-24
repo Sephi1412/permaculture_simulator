@@ -12,6 +12,8 @@ import { testEventListeners } from './core/EventListeners';
 import { DecisionModal } from './components/DecisionModal';
 import { RangeInput } from './components/RangeInput';
 import { SelectInput } from './components/SelectInput';
+import { Checkbox } from './components/Checkbox';
+import { TextAreaInput } from './components/TextAreaInput';
 
 
 const decisionModal = new DecisionModal({ menuId: "decision-modal" });
@@ -59,5 +61,23 @@ const selectInput = new SelectInput({
     label: "Exercise Type",
     callbacks: {
         "change": updateNewObjective,
+    }
+})
+
+const checkInput = new Checkbox({
+    id: "check-input",
+    containerID: "input-test",
+    label: "Exercise Type",
+    callbacks: {
+        "change": updateNewObjective,
+    },
+})
+
+const textArea = new TextAreaInput({
+    id: "text-area",
+    containerID: "input-test",
+    label: "Description",
+    callbacks: {
+        "input" : updateNewObjective,
     }
 })
