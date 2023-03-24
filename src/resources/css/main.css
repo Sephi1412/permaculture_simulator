@@ -93,7 +93,15 @@ a {
     justify-content: center !important;
 }
 
-/* Menus */
+/* Text */
+.input-label {
+    font-family: 'InterRegular';
+    background-color: var(--bg-light);
+    border-radius: 1vw;
+    color: var(--bg-black);
+    font-weight: bolder;
+    width: auto;
+}
 
 
 

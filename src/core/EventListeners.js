@@ -10,6 +10,7 @@ export function testEventListeners() {
         const target = VARS.MENUS["decision-modal"];
         target.setTitle("Hello World");
         target.show();
+        target.setParam({ paramName: "body", value: "Hello Putis"})
         // console.log("AAAAAAAAAAA")
         // setTitle("Updated Title");
         // setBody("Updated Body");

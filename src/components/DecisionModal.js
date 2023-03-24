@@ -6,20 +6,20 @@ import { Menu } from './Menu';
 
 // }
 let modalValues = {
-	title: '',
-	body: ''
+    title: '',
+    body: ''
 };
 
 export class DecisionModal extends Menu {
-	constructor({ menuId }) {
-		super({ id: menuId });
-		this.type = 'modal';
+    constructor({ menuId }) {
+        super({ id: menuId });
+        this.type = 'modal';
         this.variant = 'decision';
         this.generate();
-	}
+    }
 
-	generate() {
-		const code = `
+    generate() {
+        const code = `
         <div class="modal fade" id="${this.id}" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -37,38 +37,44 @@ export class DecisionModal extends Menu {
             </div>
         </div>
         </div>`;
-        
+
         document.getElementById(this.targetId).insertAdjacentHTML("beforeend", code);
         VARS.MENUS[this.id] = this;
-	}
+    }
 
     show() {
         $(`#${this.id}`).modal('show');
     }
 
-    
+    setParam({ paramName, value }) {
+        console.log(this[paramName]);
+        this[paramName] = value;
+        console.log(this[paramName]);
+    }
+
+
 }
 
 export function setTitle(title) {
-	modalValues.title = title;
-	console.log(modalValues);
+    modalValues.title = title;
+    console.log(modalValues);
 }
 
 export function setBody(body) {
-	modalValues.body = body;
+    modalValues.body = body;
 }
 
 export function setOnOpenCallback() {
-	console.log(modalValues);
-	const modalTitle = document.getElementById('decisionModalTitle');
-	const modalBody = document.getElementById('decisionModalBody');
+    console.log(modalValues);
+    const modalTitle = document.getElementById('decisionModalTitle');
+    const modalBody = document.getElementById('decisionModalBody');
 
-	modalTitle.innerText = modalValues.title;
-	modalBody.innerText = modalValues.body;
+    modalTitle.innerText = modalValues.title;
+    modalBody.innerText = modalValues.body;
 }
 
-function setOnCloseCallback() {}
+function setOnCloseCallback() { }
 
-function showDecisionModal() {}
+function showDecisionModal() { }
 
-function closeDecisionModal() {}
+function closeDecisionModal() { }
