@@ -11,6 +11,7 @@ import './resources/css/components.css';
 import { testEventListeners } from './core/EventListeners';
 import { DecisionModal } from './components/DecisionModal';
 import { RangeInput } from './components/RangeInput';
+import { SelectInput } from './components/SelectInput';
 
 
 const decisionModal = new DecisionModal({ menuId: "decision-modal" });
@@ -44,4 +45,19 @@ const rangeInput = new RangeInput({
         "click": updateNewObjective,
     }
     
+})
+
+const selectInput = new SelectInput({
+    id: "select-input",
+    containerID: "input-test",
+    defaultValue: "Select an Option",
+    options: {
+        "key_seq": "Key Sequence",
+        "terrain_edit": "Terrain Modification",
+        "use_tool": "Use a Specific Tool"
+    },
+    label: "Exercise Type",
+    callbacks: {
+        "change": updateNewObjective,
+    }
 })

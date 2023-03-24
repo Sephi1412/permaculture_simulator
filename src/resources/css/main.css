@@ -115,6 +115,9 @@ a {
     align-items: center;
 }
 
+select.form-select {
+    color: black !important;
+}
 
 
 /* Extras */

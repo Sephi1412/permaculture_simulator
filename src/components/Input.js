@@ -2,7 +2,7 @@ import { el, mount } from "redom";
 import onChange from 'on-change';
 
 export class Input {
-    constructor(id, containerID, containerProps = {}, labelProps = {}, inputClass = "", inputProps = {}, callbacks = {}) {
+    constructor({ id, containerID, containerProps = {}, labelProps = {}, inputClass = "", inputProps = {}, callbacks = {} }) {
         /*
             Container Props: Mainly related to style
             Label Props: Mainly related to style. Also contains the label string
@@ -34,21 +34,17 @@ export class Input {
 
     render() {
         const containerEl = document.getElementById(this.containerID);
-
         this.el = el("div.container d-flex flex-column", [
             this.label,
-            el("div.row", [
-                el("div.col-8 align-items-center justify-content-center d-flex", [this.input]),
-                el("div.col-4 align-items-center justify-content-center d-flex", [this.display])
-            ])
+            el("div", [this.inputContainer])
         ])
 
         mount(containerEl, this.el);
     }
 
     handleUpdate(event) {
-        this.currentVal = event.srcElement.value;
-        this.useCallbacks(event);
+        this.currentVal = event.srcElement.value;   
+        this.useCallbacks({ event: event, value: this.currentVal });
     }
 
     useCallbacks(props) {

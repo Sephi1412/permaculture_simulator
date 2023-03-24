@@ -11,11 +11,11 @@ export class RangeInput extends Input {
             max: props.max,
             value: props.currentValue,
             step: props.step,
-            
+
         };
 
         const labelProps = { textContent: label }
-        super(id, containerID, containerProps, labelProps, inputClass, inputProps, callbacks, inputClass);
+        super({ id, containerID, containerProps, labelProps, inputClass, inputProps, callbacks, inputClass });
 
         this.createInput();
         this.createLabel();
@@ -25,7 +25,6 @@ export class RangeInput extends Input {
     }
 
     createInput() {
-        
         this.input = el(`input.form-range`, this.inputProps);
         this.display = el("input.form-control range-display", {
             type: "number",
@@ -40,7 +39,19 @@ export class RangeInput extends Input {
             el("div.col-8 align-items-center justify-content-center d-flex", [this.input]),
             el("div.col-4 align-items-center justify-content-center d-flex", [this.display])
         ])
+    }
 
+    render() {
+        const containerEl = document.getElementById(this.containerID);
+        this.el = el("div.container d-flex flex-column", [
+            this.label,
+            el("div.row", [
+                el("div.col-8 align-items-center justify-content-center d-flex", [this.input]),
+                el("div.col-4 align-items-center justify-content-center d-flex", [this.display])
+            ])
+        ])
+
+        mount(containerEl, this.el);
     }
 
 
