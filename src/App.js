@@ -14,6 +14,7 @@ import { RangeInput } from './components/RangeInput';
 import { SelectInput } from './components/SelectInput';
 import { Checkbox } from './components/Checkbox';
 import { TextAreaInput } from './components/TextAreaInput';
+import { TextInput } from './components/TextInput';
 
 
 const decisionModal = new DecisionModal({ menuId: "decision-modal" });
@@ -79,5 +80,17 @@ const textArea = new TextAreaInput({
     label: "Description",
     callbacks: {
         "input" : updateNewObjective,
+    }
+})
+
+const textInput = new TextInput({
+    id: "text-input",
+    containerID: "input-test",
+    label: "Objective Title",
+    callbacks: {
+        "input" : updateNewObjective,
+    },
+    props: {
+        placeholder: "Insert here the name of the objetive"
     }
 })
