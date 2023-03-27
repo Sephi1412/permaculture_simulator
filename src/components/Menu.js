@@ -50,6 +50,6 @@ export class Menu {
     }
 }
 
-function defaultCallback() {
+function defaultCallback(event) {
     return;
 }

@@ -4,6 +4,9 @@ import onChange from 'on-change';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
+
 import { OptionTabs } from './components/OptionTabs';
 
 import './resources/css/main.css';
