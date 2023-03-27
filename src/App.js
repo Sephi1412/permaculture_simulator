@@ -15,9 +15,11 @@ import { SelectInput } from './components/SelectInput';
 import { Checkbox } from './components/Checkbox';
 import { TextAreaInput } from './components/TextAreaInput';
 import { TextInput } from './components/TextInput';
+import { Offcanvas } from './components/Offcanvas';
 
 
 const decisionModal = new DecisionModal({ menuId: "decision-modal" });
+const offcanvasTest = new Offcanvas({menuId: "offcanvas", title: "Test Offcanvas"})
 OptionTabs();
 testEventListeners();
 
@@ -94,3 +96,11 @@ const textInput = new TextInput({
         placeholder: "Insert here the name of the objetive"
     }
 })
+
+
+
+const offcanvasButton = document.getElementById("btn-test-offcanvas");
+offcanvasButton.addEventListener("click", () => {
+    
+    offcanvasTest.handleVisibility();
+});
