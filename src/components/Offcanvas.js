@@ -22,7 +22,7 @@ export class Offcanvas extends Menu {
 	}
 
 	setEvents() {
-		this.closeBtn.addEventListener('click', () => this.handleVisibility());
+		this.closeBtn.addEventListener('click', () => this.bsOffcanvas.hide());
 		this.el.addEventListener('hidden.bs.offcanvas', (event) => this.onCloseCallback(event));
 		this.el.addEventListener('show.bs.offcanvas', (event) => this.onOpenCallback(event));
 	}
