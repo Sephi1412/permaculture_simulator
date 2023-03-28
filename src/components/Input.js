@@ -40,21 +40,24 @@ export class Input {
     }
 
     createLabel() {
-        this.label = el("div.input-label w-50 justify-content-center d-flex", { textContent: this.labelProps.textContent })
+        this.label = el("div. input-label d-flex ms-1", { textContent: this.labelProps.textContent })
     }
 
     render() {
-        const containerEl = document.getElementById(this.containerID);
         this.el = el("div.container d-flex flex-column", [
             this.label,
             el("div", [this.inputContainer])
         ])
 
-        mount(containerEl, this.el);
+        if (this.containerID) {
+            const containerEl = document.getElementById(this.containerID);
+            mount(containerEl, this.el);
+        }
+
     }
 
     handleUpdate(event) {
-        this.currentVal = event.srcElement.value;   
+        this.currentVal = event.srcElement.value;
         this.useCallbacks({ event: event, value: this.currentVal });
     }
 
@@ -63,7 +66,7 @@ export class Input {
         const eventCallback = this.callbacks[event.type];
         if (eventCallback)
             eventCallback(props);
-        else 
+        else
             defaultEventCallback(event);
     }
 

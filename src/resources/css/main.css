@@ -38,6 +38,31 @@
     /* IE9 Compat Modes */
 }
 
+@font-face {
+    font-family: 'GothamLight';
+    src: url('../fonts/GothamLight.ttf');
+    /* IE9 Compat Modes */
+}
+
+@font-face {
+    font-family: 'GothamMedium';
+    src: url('../fonts/GothamMedium.ttf');
+    /* IE9 Compat Modes */
+}
+
+@font-face {
+    font-family: 'GothamBold';
+    src: url('../fonts/GothamBold.ttf');
+    /* IE9 Compat Modes */
+}
+
+@font-face {
+    font-family: 'GothamBook';
+    src: url('../fonts/GothamBook.ttf');
+    /* IE9 Compat Modes */
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -46,7 +71,7 @@
 html,
 body {
     height: 100vh;
-    font-family: 'InterLight';
+    font-family: 'GothamLight';
     background-color: var(--bg-default);
     color: var(--font-color-main);
 }
@@ -95,13 +120,19 @@ a {
 
 /* Text */
 .input-label {
-    font-family: 'InterRegular';
-    background-color: var(--bg-light);
-    border-radius: 1vw;
-    color: var(--bg-black);
-    font-weight: bolder;
-    width: auto;
+    text-transform: uppercase;
+    font-family: 'GothamLight';
+    font-size: 1.5vh;
+    border: 10px solid;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-image-slice: 1;
+    border-width: 1px;
+    border-image-source: linear-gradient(95deg, rgba(255,255,255,1) 0%, rgba(0,0,0,0) 50%);
+    
 }
+
 
 
 
@@ -160,4 +191,8 @@ select.form-select {
 
 .fontDark {
     color: var(--font-color-dark) !important;
+}
+
+.border-gradient-green {
+    
 }

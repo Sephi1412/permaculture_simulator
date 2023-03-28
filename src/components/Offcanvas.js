@@ -14,9 +14,9 @@ export class Offcanvas extends Menu {
 
 	generate() {
 		this.offcanvasTitle = el('h5.offcanvas-title', { textContent: this.title });
-		this.closeBtn = el('button.btn-close', { type: 'button', 'data-bs-dismiss': 'offcanvas', 'aria-label': 'Close' });
+		this.closeBtn = el('button.btn-close ', { type: 'button', 'data-bs-dismiss': 'offcanvas', 'aria-label': 'Close' });
 		this.header = el('div.offcanvas-header', [this.offcanvasTitle, this.closeBtn]);
-		this.offCanvasBody = el('div.offcanvas-body', [el('div', { textContent: 'Lorem Ipsum' })]);
+		this.offCanvasBody = el(`div.offcanvas-body#${this.id}-body`, [el('div', { textContent: this.body })]);
 		this.el = el(`div.offcanvas offcanvas-${this.placement}`, [this.header, this.offCanvasBody], { id: this.id });
 
 	}
@@ -35,5 +35,13 @@ export class Offcanvas extends Menu {
 
 	handleVisibility() {
 		this.bsOffcanvas.toggle();
+	}
+
+	setTitle(newTitle) {
+		this.offcanvasTitle.textContent = newTitle;
+	}
+
+	addContentToBody(element) {
+		this.offCanvasBody.appendChild(element.el);
 	}
 }

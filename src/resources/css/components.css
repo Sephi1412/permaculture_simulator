@@ -19,6 +19,20 @@
     border-width: 0.15vw;
 }
 
+.range-container {
+    /* background-color: rgb(54, 54, 54); */
+    border-radius: 1.0vw;
+    padding: 0.0vh 0.5vw;
+    transition: 0.1s;
+}
+
+.range-container:hover {
+
+    -webkit-box-shadow: 0px 0px 8px 0px rgb(0, 255, 221);
+    -moz-box-shadow: 0px 0px 8px 0px rgb(0, 255, 221);
+    box-shadow: 0px 0px 8px 0px rgb(0, 255, 221);
+}
+
 .range-display {
     border-radius: 3vw;
     text-align: center;
@@ -36,8 +50,20 @@
 }
 
 .offcanvas {
-    background-color: rgba(0, 0, 0, 0.151);
+    background: rgb(0, 0, 0);
+    background: -moz-linear-gradient(180deg, rgba(0, 0, 0, 0.5900735294117647) 0%, rgba(0, 0, 0, 0.727328431372549) 100%);
+    background: -webkit-linear-gradient(180deg, rgba(0, 0, 0, 0.5900735294117647) 0%, rgba(0, 0, 0, 0.727328431372549) 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5900735294117647) 0%, rgba(0, 0, 0, 0.727328431372549) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000", endColorstr="#000000", GradientType=1);
     width: 30vw !important;
+}
+
+.offcanvas-header {
+    background-color: rgb(255, 255, 255);
+    text-transform: uppercase;
+    font-family: 'GothamLight';
+    font-weight: bolder !important;
+    color: black;
 }
 
 .offcanvas-backdrop {
@@ -84,4 +110,22 @@
 
 .custom-btn:active {
     background-color: rgba(70, 156, 182, 0.637);
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+
+    background: rgb(115, 212, 241);
+    margin-top: -4px;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    /* width: 300px; */
+    background: rgb(157, 157, 157);
+    background: -moz-linear-gradient(22deg, rgba(157, 157, 157, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    background: -webkit-linear-gradient(22deg, rgba(157, 157, 157, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    background: linear-gradient(22deg, rgba(157, 157, 157, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#9d9d9d", endColorstr="#ffffff", GradientType=1);
+    border: none;
+    border-radius: 3px;
 }

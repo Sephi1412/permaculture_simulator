@@ -18,14 +18,18 @@ export class Checkbox extends Input {
     }
 
     render() {
-        const containerEl = document.getElementById(this.containerID);
         this.el = el("div.container row mt-3", [
             el("div.col-10", [this.label]),
-            el("div.col-auto", [this.input])
+            el("div.col-2", [this.input])
 
-        ])
+        ]);
 
-        mount(containerEl, this.el);
+        if (this.containerID) {
+            const containerEl = document.getElementById(this.containerID);
+            mount(containerEl, this.el);
+        };
+
+
     }
 
     handleUpdate(event) {

@@ -22,13 +22,15 @@ export class TextAreaInput extends Input {
     }
 
     render() {
-        const containerEl = document.getElementById(this.containerID);
         this.el = el("div.container d-flex flex-column mt-3", [
             this.label,
             this.inputContainer,
-        ])
+        ]);
 
-        mount(containerEl, this.el);
+        if (this.containerID) {
+            const containerEl = document.getElementById(this.containerID);
+            mount(containerEl, this.el);
+        }
     }
 
     handleUpdate(event) {

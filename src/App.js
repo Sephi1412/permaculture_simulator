@@ -22,7 +22,7 @@ import { Offcanvas } from './components/Offcanvas';
 
 
 const decisionModal = new DecisionModal({ menuId: "decision-modal" });
-const offcanvasTest = new Offcanvas({menuId: "offcanvas", title: "Test Offcanvas"})
+const offcanvasTest = new Offcanvas({menuId: "offcanvas-test", title: "Test Offcanvas", body: ""})
 OptionTabs();
 testEventListeners();
 
@@ -40,7 +40,6 @@ function updateNewObjective(props) {
 
 const rangeInput = new RangeInput({
     id: "range-input",
-    containerID: "input-test",
     props: {
         min: 0,
         max: 2,
@@ -55,9 +54,11 @@ const rangeInput = new RangeInput({
     
 })
 
+
+
 const selectInput = new SelectInput({
     id: "select-input",
-    containerID: "input-test",
+    
     defaultValue: "Select an Option",
     options: {
         "key_seq": "Key Sequence",
@@ -90,7 +91,6 @@ const textArea = new TextAreaInput({
 
 const textInput = new TextInput({
     id: "text-input",
-    containerID: "input-test",
     label: "Objective Title",
     callbacks: {
         "input" : updateNewObjective,
@@ -107,3 +107,8 @@ offcanvasButton.addEventListener("click", () => {
     
     offcanvasTest.handleVisibility();
 });
+
+offcanvasTest.addContentToBody(rangeInput);
+offcanvasTest.addContentToBody(textInput);
+offcanvasTest.addContentToBody(textArea);
+offcanvasTest.addContentToBody(checkInput);

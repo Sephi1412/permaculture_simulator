@@ -3,7 +3,6 @@ import { el, mount } from "redom";
 
 export class RangeInput extends Input {
     constructor({ id, containerID, props, label, containerProps, callbacks }) {
-        const inputClass = "form-range";
         const inputProps = {
             id: id,
             type: "range",
@@ -15,7 +14,7 @@ export class RangeInput extends Input {
         };
 
         const labelProps = { textContent: label }
-        super({ id, containerID, containerProps, labelProps, inputClass, inputProps, callbacks, inputClass });
+        super({ id, containerID, containerProps, labelProps, inputProps, callbacks });
 
         this.createInput();
         this.createLabel();
@@ -26,31 +25,30 @@ export class RangeInput extends Input {
 
     createInput() {
         this.input = el(`input.form-range`, this.inputProps);
-        this.display = el("input.form-control range-display", {
+        this.display = el("input.form-control form-control-sm range-display", {
             type: "text",
             value: this.value,
             step: this.inputProps.step,
             disabled: true,
         });
-        this.inputContainer = el("div.row", [
-            el("div.col-8 align-items-center justify-content-center d-flex", [this.input]),
-            el("div.col-4 align-items-center justify-content-center d-flex", [this.display])
+        this.inputContainer = el("div.row mt-2 ", [
+            el("div.col-9 range-container align-items-center justify-content-center d-flex", [this.input]),
+            el("div.col-3 align-items-center justify-content-center d-flex", [this.display])
         ])
 
         this.setInputEventListeners();
     }
 
     render() {
-        const containerEl = document.getElementById(this.containerID);
         this.el = el("div.container d-flex flex-column", [
             this.label,
-            el("div.row", [
-                el("div.col-8 align-items-center justify-content-center d-flex", [this.input]),
-                el("div.col-4 align-items-center justify-content-center d-flex", [this.display])
-            ])
+            this.inputContainer
         ])
+        if (this.containerID) {
+            const containerEl = document.getElementById(this.containerID);
+            mount(containerEl, this.el);
+        }
 
-        mount(containerEl, this.el);
     }
 
 
