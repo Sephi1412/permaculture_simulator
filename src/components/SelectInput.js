@@ -2,13 +2,11 @@ import { Input } from "./Input";
 import { el, mount } from "redom";
 
 export class SelectInput extends Input {
-    constructor({ id, containerID, defaultValue, options, label, callbacks }) {
+    constructor({ id, parent, defaultValue, options, label, callbacks }) {
         const labelProps = { textContent: label }
-        super({ id: id, containerID: containerID, callbacks: callbacks, labelProps: labelProps, inputProps: options });
+        super({ id: id, parent: parent, callbacks: callbacks, labelProps: labelProps, inputProps: options });
         this.defaultValue = defaultValue;
 
-        this.createInput();
-        this.createLabel();
         this.render();
     }
 
@@ -22,7 +20,5 @@ export class SelectInput extends Input {
 
         this.input = el(`select.form-select`, options);
         this.inputContainer = el("div.mt-3", [this.input])
-
-        this.setInputEventListeners();
     }
 }

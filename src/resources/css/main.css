@@ -154,6 +154,10 @@ select.form-select {
     color: black !important;
 }
 
+.dropdown-item {
+    color: black !important;
+}
+
 
 /* Extras */
 
