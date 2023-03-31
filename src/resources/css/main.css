@@ -118,6 +118,10 @@ a {
     justify-content: center !important;
 }
 
+#temporal-container {
+    display: none;
+}
+
 /* Text */
 .input-label {
     text-transform: uppercase;
@@ -129,8 +133,8 @@ a {
     border-top: 0;
     border-image-slice: 1;
     border-width: 1px;
-    border-image-source: linear-gradient(95deg, rgba(255,255,255,1) 0%, rgba(0,0,0,0) 50%);
-    
+    border-image-source: linear-gradient(95deg, rgba(255, 255, 255, 1) 0%, rgba(0, 0, 0, 0) 50%);
+
 }
 
 
@@ -193,6 +197,4 @@ select.form-select {
     color: var(--font-color-dark) !important;
 }
 
-.border-gradient-green {
-    
-}
+.border-gradient-green {}
