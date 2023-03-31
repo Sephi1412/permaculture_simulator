@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import * as $ from "jquery";
 import onChange from 'on-change';
-import 'bootstrap/dist/js/bootstrap.min.js';
+import { popper } from '@popperjs/core';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import * as bootstrap from 'bootstrap';
@@ -19,6 +19,7 @@ import { Checkbox } from './components/Checkbox';
 import { TextAreaInput } from './components/TextAreaInput';
 import { TextInput } from './components/TextInput';
 import { Offcanvas } from './components/Offcanvas';
+import { Accordion } from './components/Accordion';
 
 
 const decisionModal = new DecisionModal({ menuId: "decision-modal" });
@@ -112,3 +113,12 @@ offcanvasTest.addContentToBody(rangeInput);
 offcanvasTest.addContentToBody(textInput);
 offcanvasTest.addContentToBody(textArea);
 offcanvasTest.addContentToBody(checkInput);
+
+const testAccordion = new Accordion({id: "test-accordion"});
+testAccordion.addChildren();
+offcanvasTest.addContentToBody(testAccordion)
+testAccordion.addChildren();
+testAccordion.addChildren();
+testAccordion.addChildren();
+testAccordion.addChildren();
+testAccordion.addChildren();
