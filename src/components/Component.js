@@ -1,13 +1,16 @@
 import { el, mount, setChildren } from 'redom';
-import onChange from 'on-change';
 
 export class Component {
-	constructor({ name = '', componentID }) {
+	constructor({ name = '', componentID, parent = document.getElementById('temporal-container') }) {
+		/*
+			el -> Main HTML Component to Render
+			Flow: generateComponent() -> validate() -> mount() -> setEventListeners()
+		*/
 		this.id = componentID;
 		this.name = name;
 		this.callbacks = {};
 		this.n_children = 0;
-		this.parent = document.getElementById('temporal-container');
+		this.parent = parent;
 		this.children = [];
 		this.el = null;
 	}
@@ -23,19 +26,25 @@ export class Component {
 
 		if (this.el === null) {
 			msg += 'An HTML element must be defined\n';
-            status = false;
+			status = false;
 		}
 
-        if (!status) {
-            alert(msg);
-        }
+		if (!status) {
+			alert(msg);
+		}
 
-        return status;
+		return status;
+	}
+
+	generateComponent() {
+		this.el = el('div'); // Just a place holder
 	}
 
 	render() {
-		this.el = el('div'); // Just a place holder
+		this.generateComponent();
+		this.validate();
 		mount(this.parent, this.el);
+		this.setInputEventListeners();
 	}
 
 	update() {
@@ -50,6 +59,13 @@ export class Component {
 	setParent(parent) {
 		console.log(parent, this.el);
 		mount(parent, this.el);
+	}
+
+	setInputEventListeners() {
+		const types = Object.keys(this.callbacks);
+		types.forEach((type) => {
+			this.el.addEventListener(type, (event) => this.handleUpdate(event));
+		});
 	}
 
 	setCallbacks(callbacks) {

@@ -3,7 +3,7 @@ import * as $ from 'jquery';
 import onChange from 'on-change';
 import { popper } from '@popperjs/core';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { el, mount } from 'redom';
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 
@@ -93,3 +93,8 @@ const rangeInput = new RangeInput({
 
 
 rangeInput.setParent(target);
+const testAccordion = new Accordion({ id: 'test-accordion' });
+testAccordion.setParent(target);
+
+
+testAccordion.addChildren({ itemLabel: 'Objective N°1', itemContent: el("div", [rangeInput, checkInput, selectInput]) });

@@ -42,14 +42,10 @@ export class Input extends Component {
 		this.el = el('div.container d-flex flex-column', [ this.label, el('div', [ this.inputContainer ]) ]);
 	}
 
-	render() {
-        this.createInput();
+	generateComponent() {
+		this.createInput();
         this.createLabel();
 		this.createElement();
-        this.validate();
-        mount(this.parent, this.el);
-		this.setInputEventListeners();
-
 	}
 
 	handleUpdate(event) {
