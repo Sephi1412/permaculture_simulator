@@ -23,37 +23,35 @@ export class Dropdown extends Component {
 		this.el = el(`div#${this.id}`, [ this.dropdownBtn, this.optionContainer ]);
 	}
 
-	addOption({ label, callbacks, attrs }) {
+	addOption({ label, callbacks, toggle = '', target = '' }) {
+		let nodes = [];
 		const childrenId = `${this.id}-item-${this.n_children}`;
-		const item = new DropdownOption({ label: label, id: childrenId, callbacks: callbacks, attrs: attrs });
-		setChildren(this.optionContainer, item.el);
-        
-		setChildren(this.optionContainer, item);
+		// console.log(this.optionContainer.childNodes)
+		const item = new DropdownOption({ label: label, id: childrenId, callbacks: callbacks, toggle: toggle, target: target });
+		// setChildren(this.optionContainer, nodes);
+		this.optionContainer.appendChild(item.el);
+
 		this.n_children += 1;
 	}
 }
 
 class DropdownOption extends Component {
-	constructor({ label = '', id, callbacks, attrs }) {
+	constructor({ label = '', id, callbacks = {}, toggle = '', target = '' }) {
 		super({ componentID: id });
 		this.label = label;
 		this.callbacks = callbacks;
-		this.attrs = attrs;
+		this.dataToggle = toggle;
+		this.dataTarget = target;
 
 		this.render();
 	}
 
 	generateComponent() {
 		// const item = el('li', [ el(`a.dropdown-item`, label) ]);
-		this.el = el('li', [ el(`a.dropdown-item#${this.id}`, this.label) ]);
+		this.el = el('li', [
+			el(`a.dropdown-item#${this.id}`, this.label),
+			{ 'data-bs-toggle': this.dataToggle, 'data-bs-target': `#${this.dataTarget}` }
+		]);
 	}
 }
 
-// button class="btn active-btn disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-//                   Dropdown button
-//                 </button>
-//                 <ul class="dropdown-menu">
-//                   <li><a class="dropdown-item" href="#">Action</a></li>
-//                   <li><a class="dropdown-item" href="#">Another action</a></li>
-//                   <li><a class="dropdown-item" href="#">Something else here</a></li>
-//                 </ul>

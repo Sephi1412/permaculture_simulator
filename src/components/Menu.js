@@ -16,6 +16,7 @@ export class Menu extends Component {
 		this.onCloseCallback = defaultCallback;
 		this.onSubmitCallback = defaultCallback;
 		this.onDeclineCallback = defaultCallback;
+        this.parent = document.body
 	}
 
 	setOnOpenCallback(callback) {

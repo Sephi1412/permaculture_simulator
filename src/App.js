@@ -21,19 +21,30 @@ import { TextInput } from './components/TextInput';
 import { Offcanvas } from './components/Offcanvas';
 import { Accordion } from './components/Accordion';
 import { Dropdown } from './components/Dropdown';
+import { Modal } from './components/Modal';
 
-const gameContainer = document.getElementById("game-container");
-const optionTabs = document.getElementById("option-tabs");
-const offcanvasTestButton = document.getElementById("btn-test-offcanvas");
+const gameContainer = document.getElementById('game-container');
+const optionTabs = document.getElementById('option-tabs');
+const offcanvasTestButton = document.getElementById('btn-test-offcanvas');
 
-const offcanvasTest = new Offcanvas({ menuId: 'offcanvas-test', title: 'Test Offcanvas', body: '', width: 100 });
+function testEvent(event) {
+	alert('PATATIN');
+}
+
+const offcanvasTest = new Offcanvas({ menuId: 'offcanvas-test', title: 'Test Offcanvas', onCloseCallback: testEvent });
+const testModal = new Modal({ menuId: 'test-modal', title: 'Test Modal', type: "decision", submitBtnLabel: "Hola :b:uto" });
 // offcanvasTest.setParent(gameContainer)
 
+const dropdownTest = new Dropdown({ id: 'test-dropdown', parent: optionTabs, label: 'Test Dropdown' });
+dropdownTest.addOption({
+	label: 'First Option',
+	callbacks: { click: (event) => offcanvasTest.handleVisibility(event) },
+	attrs: {}
+});
 
-const dropdownTest = new Dropdown({id: 'test-dropdown', parent: optionTabs, label: "Test Dropdown"})
-dropdownTest.addOption({label: "Primera Opción", callbacks: {'click': (event) => offcanvasTest.handleVisibility(event)}, attrs: {}})
+dropdownTest.addOption({ label: 'Open Modal', toggle: "modal", target: "test-modal"});
 
 
-offcanvasTestButton.addEventListener("click", (event) => {
+offcanvasTestButton.addEventListener('click', (event) => {
 	offcanvasTest.handleVisibility(event);
-})
+});
