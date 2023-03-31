@@ -74,38 +74,17 @@
     background-color: rgba(0, 0, 0, 0.151);
 }
 
-/* .collapsible {
-    background-color: #eee;
-    color: #444;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
+.active-btn {
+    color: white;
 }
 
-.active,
-.collapsible:hover {
-    background-color: #ccc;
+.custom-navbar .disabled {
+    color: var(--font-color-disable);
 }
 
-.content {
-    height: auto !important;
-    max-height: 0px;
-    transition: 0.2s ease-out;
-    opacity: 0;
-    overflow: hidden;
+.active-btn.disabled {
+    border: 0px transparent;
 }
-
-.content.active {
-    opacity: 1;   
-    height: auto !important;
-    max-height: 100px !important;
-    background-color: #4b4343;
-
-} */
 
 
 .toolbar-icon {

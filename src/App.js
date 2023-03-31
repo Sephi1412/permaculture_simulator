@@ -20,6 +20,10 @@ import { TextAreaInput } from './components/TextAreaInput';
 import { TextInput } from './components/TextInput';
 import { Offcanvas } from './components/Offcanvas';
 import { Accordion } from './components/Accordion';
+import { Dropdown } from './components/Dropdown';
+
+const offcanvasTest = new Offcanvas({ menuId: 'offcanvas-test', title: 'Test Offcanvas', body: '' });
+const decisionModal = new DecisionModal({ menuId: 'decision-modal' });
 
 
 const newObjective = {
@@ -33,6 +37,7 @@ function updateNewObjective(props) {
 }
 
 const target = document.getElementById('game-container');
+const optionTabs = document.getElementById('option-tabs');
 const textInput = new TextInput({
 	id: 'text-input',
 	label: 'Objective Title',
@@ -98,3 +103,6 @@ testAccordion.setParent(target);
 
 
 testAccordion.addChildren({ itemLabel: 'Objective N°1', itemContent: el("div", [rangeInput, checkInput, selectInput]) });
+
+const dropdownTest = new Dropdown({id: 'test-dropdown', parent: optionTabs, label: "Test Dropdown"})
+dropdownTest.addOption({label: "Primera Opción", callbacks: {'click': (event) => offcanvasTest.handleVisibility(event)}, attrs: {}})

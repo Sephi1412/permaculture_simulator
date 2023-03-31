@@ -33,7 +33,7 @@ export class Offcanvas extends Menu {
 		this.setEvents();
 	}
 
-	handleVisibility() {
+	handleVisibility(event) {
 		this.bsOffcanvas.toggle();
 	}
 

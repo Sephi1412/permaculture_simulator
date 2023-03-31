@@ -27,7 +27,7 @@ export class Input extends Component {
 		this.inputContainer = el('div.container', this.input);
 	}
 
-	setInputEventListeners() {
+	setEventListeners() {
 		const types = Object.keys(this.callbacks);
 		types.forEach((type) => {
 			this.input.addEventListener(type, (event) => this.handleUpdate(event));

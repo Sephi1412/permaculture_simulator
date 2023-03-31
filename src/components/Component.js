@@ -44,7 +44,7 @@ export class Component {
 		this.generateComponent();
 		this.validate();
 		mount(this.parent, this.el);
-		this.setInputEventListeners();
+		this.setEventListeners();
 	}
 
 	update() {
@@ -57,22 +57,25 @@ export class Component {
 	}
 
 	setParent(parent) {
-		console.log(parent, this.el);
 		mount(parent, this.el);
 	}
 
-	setInputEventListeners() {
+	setEventListeners() {
 		const types = Object.keys(this.callbacks);
+		console.log(this.callbacks);
 		types.forEach((type) => {
-			this.el.addEventListener(type, (event) => this.handleUpdate(event));
+			const callback = this.callbacks[type]
+			this.el.addEventListener(type, (event) => callback(event));
 		});
 	}
 
 	setCallbacks(callbacks) {
 		this.callbacks = callbacks;
+		this.setEventListeners();
 	}
 
 	addCallback(type, callback) {
 		this.callbacks[type] = callback;
+		this.setEventListeners();
 	}
 }

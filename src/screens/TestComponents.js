@@ -73,8 +73,8 @@ const textInput = new TextInput({
 });
 
 const offcanvasButton = document.getElementById('btn-test-offcanvas');
-offcanvasButton.addEventListener('click', () => {
-	offcanvasTest.handleVisibility();
+offcanvasButton.addEventListener('click', (event) => {
+	offcanvasTest.handleVisibility(event);
 });
 
 offcanvasTest.addContentToBody(rangeInput);
