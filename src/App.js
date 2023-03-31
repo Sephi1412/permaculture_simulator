@@ -107,4 +107,4 @@ offcanvasTest.addContentToBody(checkInput);
 
 const testAccordion = new Accordion({ id: 'test-accordion' });
 offcanvasTest.addContentToBody(testAccordion);
-testAccordion.addChildren({ itemLabel: 'Objective N°1' , itemContent: selectInput.el});
+testAccordion.addChildren({ itemLabel: 'Objective N°1', itemContent: selectInput });
