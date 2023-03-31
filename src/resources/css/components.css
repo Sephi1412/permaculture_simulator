@@ -55,7 +55,7 @@
     background: -webkit-linear-gradient(180deg, rgba(0, 0, 0, 0.5900735294117647) 0%, rgba(0, 0, 0, 0.727328431372549) 100%);
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.5900735294117647) 0%, rgba(0, 0, 0, 0.727328431372549) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000", endColorstr="#000000", GradientType=1);
-    width: 30vw !important;
+    /* width: 30vw !important; */
 }
 
 .offcanvas-header {

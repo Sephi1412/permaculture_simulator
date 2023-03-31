@@ -78,4 +78,8 @@ export class Component {
 		this.callbacks[type] = callback;
 		this.setEventListeners();
 	}
+
+	setParam({ paramName, value }) {
+		this[paramName] = value;
+	}
 }

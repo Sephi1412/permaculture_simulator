@@ -3,53 +3,38 @@
         => Guardar los callbacks 
 */
 
-export class Menu {
-    constructor({ id }) {
-        this.id = id;
-        this.body = '';
-        this.title = '';
-        this.type = 'default';
-        this.variant = 'default';
-        this.targetId = 'menu-section';
-        this.onOpenCallback = defaultCallback;
-        this.onCloseCallback = defaultCallback;
-        this.onSubmitCallback = defaultCallback;
-        this.onDeclineCallback = defaultCallback;
-    }
+import { Component } from './Component';
 
-    setBody(body) {
-        this.body = body;
-        const bodyId = `${this.id}-body`;
-        document.getElementById(bodyId).innerHTML = body;
-    }
+export class Menu extends Component {
+	constructor({ id }) {
+		super({ componentID: id });
+        this.bodyID = `${this.id}-body`;
+        this.headerID = `${this.id}-title`
+		this.type = 'default';
+		this.variant = 'default';
+		this.onOpenCallback = defaultCallback;
+		this.onCloseCallback = defaultCallback;
+		this.onSubmitCallback = defaultCallback;
+		this.onDeclineCallback = defaultCallback;
+	}
 
-    setTitle(title) {
-        this.title = title;
-        const titleId = `${this.id}-title`;
-        document.getElementById(titleId).innerHTML = title;
-    }
+	setOnOpenCallback(callback) {
+		this.onOpenCallback = callback;
+	}
 
-    setParam({ paramName, value }) {
-        this[paramName] = value;
-    }
+	setOnCloseCallback(callback) {
+		this.onCloseCallback = callback;
+	}
 
-    setOnOpenCallback(callback) {
-        this.onOpenCallback = callback;
-    }
+	setOnSubmitCallback(callback) {
+		this.onSubmitCallback = callback;
+	}
 
-    setOnCloseCallback(callback) {
-        this.onCloseCallback = callback;
-    }
-
-    setOnSubmitCallback(callback) {
-        this.onSubmitCallback = callback;
-    }
-
-    setOnDeclineCallback(callback) {
-        this.onDeclineCallback = callback;
-    }
+	setOnDeclineCallback(callback) {
+		this.onDeclineCallback = callback;
+	}
 }
 
 function defaultCallback(event) {
-    return;
+	return;
 }
