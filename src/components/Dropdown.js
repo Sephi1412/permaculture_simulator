@@ -26,9 +26,7 @@ export class Dropdown extends Component {
 	addOption({ label, callbacks, toggle = '', target = '' }) {
 		let nodes = [];
 		const childrenId = `${this.id}-item-${this.n_children}`;
-		// console.log(this.optionContainer.childNodes)
 		const item = new DropdownOption({ label: label, id: childrenId, callbacks: callbacks, toggle: toggle, target: target });
-		// setChildren(this.optionContainer, nodes);
 		this.optionContainer.appendChild(item.el);
 
 		this.n_children += 1;

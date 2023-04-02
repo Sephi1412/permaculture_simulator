@@ -22,6 +22,8 @@ import { Offcanvas } from './components/Offcanvas';
 import { Accordion } from './components/Accordion';
 import { Dropdown } from './components/Dropdown';
 import { Modal } from './components/Modal';
+import { ConfirmModal } from './components/ConfirmModal';
+import { DialogModal } from './components/DialogModal';
 
 const gameContainer = document.getElementById('game-container');
 const optionTabs = document.getElementById('option-tabs');
@@ -32,7 +34,7 @@ function testEvent(event) {
 }
 
 const offcanvasTest = new Offcanvas({ menuId: 'offcanvas-test', title: 'Test Offcanvas', onCloseCallback: testEvent });
-const testModal = new Modal({ menuId: 'test-modal', title: 'Test Modal', type: "decision", submitBtnLabel: "Hola :b:uto" });
+const testModal = new DialogModal({ menuId: 'test-modal', title: 'Test Modal', submitBtnLabel: "Hola :b:uto" });
 // offcanvasTest.setParent(gameContainer)
 
 const dropdownTest = new Dropdown({ id: 'test-dropdown', parent: optionTabs, label: 'Test Dropdown' });

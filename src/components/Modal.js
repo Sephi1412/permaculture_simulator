@@ -12,7 +12,7 @@ export class Modal extends Menu {
 		this.parent = document.body;
 		this.submitBtnLabel = submitBtnLabel;
 		this.declineBtnLabel = declineBtnLabel;
-		this.render();
+		// this.render();
 	}
 
 	generateHeader() {
