@@ -1,0 +1,123 @@
+import * as THREE from 'three';
+import { VARS } from './Global';
+
+
+
+const inactive = 0;
+const pressed = 1;
+const held = 2;
+const released = 3;
+
+export class InputEngine {
+    constructor() {
+        this.activeKeys = [];
+        this.inputBuffer = [];
+        this.releasedKeys = [];
+        this.mouseIsMoving = false;
+        this.mousePosition = new THREE.Vector2();
+
+        this.heldTimers = {
+            CONTROL: 0.0,
+            Z: 0.0,
+            Y: 0.0,
+            W: 0.0,
+            A: 0.0,
+            S: 0.0,
+            D: 0.0,
+            LEFT_CLICK: 0.0,
+            MIDDLE_CLICK: 0.0,
+            RIGHT_CLICK: 0.0,
+            WHEEL_UP: 0.0,
+            WHEEL_DOWN: 0.0,
+            ARROWUP: 0.0,
+            ARROWDOWN: 0.0
+        };
+
+        this.states = {
+            CONTROL: inactive,
+            Z: inactive,
+            Y: inactive,
+            W: inactive,
+            A: inactive,
+            S: inactive,
+            D: inactive,
+            LEFT_CLICK: inactive,
+            MIDDLE_CLICK: inactive,
+            RIGHT_CLICK: inactive,
+            WHEEL_UP: inactive,
+            WHEEL_DOWN: inactive,
+            ARROWUP: inactive,
+            ARROWDOWN: inactive
+        };
+
+        this.clickRaycaster = new THREE.Raycaster();
+        this.cursorRaycaster = new THREE.Raycaster();
+        // this.cursorRaycaster.params.Points.threshold = 0.1;
+        this.cursorRaycaster.params.Points.threshold = 2.0;
+
+        
+    }
+
+    _init() {
+        this.clickRaycaster = new THREE.Raycaster();
+        this.cursorRaycaster = new THREE.Raycaster();
+        // this.cursorRaycaster.params.Points.threshold = 0.1;
+        this.cursorRaycaster.params.Points.threshold = 2.0;
+
+        this.setUpInputListeners();
+    }
+
+    handleCursorMovement(event) {
+        this.mousePosition.x = event.offsetX / VARS.RENDERER.domElement.clientWidth * 2 - 1;
+        this.mousePosition.y = -(event.offsetY / VARS.RENDERER.domElement.clientHeight) * 2 + 1;
+        this.mouseIsMoving = true;
+    }
+
+    cursorIsActive(event) {
+        const typeEvent = event.type;
+        switch (typeEvent) {
+            case 'mouseover':
+                VARS.FLAGS.MOUSE_ON_GAME = true;
+                break;
+            case 'mouseleave':
+                VARS.FLAGS.MOUSE_ON_GAME = false;
+                break;
+            default:
+                break;
+        }
+    }
+
+    updateInputBuffer() {
+        (this.releasedKeys).forEach(key => {
+            this.setKeyAsInactive(key);
+            this.heldTimers[key] = 0.0;
+        });
+
+        this.mouseIsMoving = false;
+    }
+
+    setRaycasterFromCamera() {
+        const raycaster = this.cursorRaycaster;
+        const mousePos = this.mousePosition;
+        const camera = VARS.CAMERA;
+        raycaster.setFromCamera(mousePos, camera);
+
+        return raycaster;
+    }
+
+    setUpInputListeners() {
+        let target = document.getElementById('game-container');
+        target.addEventListener('mousemove', (event) => this.handleCursorMovement(event));
+        // document.addEventListener('keyup', (event) => this.handleKeyInputs(event));
+        // document.addEventListener('keydown', (event) => this.handleKeyInputs(event));
+
+        // document.addEventListener('mouseup', (event) => this.handleMouseInput(event));
+        // document.addEventListener('mousedown', (event) => this.handleMouseInput(event));
+
+        // target.addEventListener('wheel', (event) => this.handleMouseWheel(event));
+
+        target.addEventListener('contextmenu', (event) => event.preventDefault());
+        target.addEventListener('mouseover', (event) => this.cursorIsActive(event));
+        target.addEventListener('mouseleave', (event) => this.cursorIsActive(event));
+    }
+}
