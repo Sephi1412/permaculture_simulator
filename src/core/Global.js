@@ -10,6 +10,8 @@ export const VARS = {
         MOUSE_ON_GAME: true,
         MENU_IS_OPEN: false,
     },
+    MAX_SCENE_HEIGHT: 256, // Default Values
+    MIN_SCENE_HEIGHT: -256, // Default Values
     MENUS: {},
     ACTORS: {},
     MANAGERS: {},
@@ -21,10 +23,8 @@ export const VARS = {
 }
 
 export const TERRAIN_VALUES = {
-    CURSOR_SIZE: 3.0,
+    CURSOR_SIZE: 2.0
 }
-
-
 
 export function updateActors() {
     const managerIDs = Object.keys(VARS.MANAGERS);

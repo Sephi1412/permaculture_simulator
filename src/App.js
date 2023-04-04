@@ -13,4 +13,4 @@ import './resources/css/main.css';
 import './resources/css/components.css';
 import { Game } from './core/Game';
 
-const game = new Game({mode: "FREE_MODE"});
+// const game = new Game({mode: "FREE_MODE"});

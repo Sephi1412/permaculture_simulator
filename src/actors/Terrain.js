@@ -3,6 +3,7 @@ import { TERRAIN_VALUES, VARS } from '../core/Global';
 import { terrain_fragmentShader, terrain_VertexShader } from '../graphics/shaders/TerrainChunk';
 import { Actor } from './Actor';
 
+
 export class Terrain extends Actor {
     constructor({ id, width, height, widthSegments, heightSegments }) {
         super({ id: id })
@@ -77,7 +78,7 @@ export class Terrain extends Actor {
     }
 
     generatePoints() {
-        this.pointsMaterial = new THREE.PointsMaterial({ vertexColors: true });
+        this.pointsMaterial = new THREE.PointsMaterial({ vertexColors: true, visible: false });
         this.points = new THREE.Points(this.geometry, this.pointsMaterial);
 
 
@@ -103,34 +104,32 @@ export class Terrain extends Actor {
                 intersects[0].point.y / 1,
                 intersects[0].point.z / 1
             );
-            // console.log(intersects);
+            
 
 
             this.setValue('cursorPos', cursorPosition);
             this.onClickFunction();
-            // console.log(this.getValue('cursorPos'));
         }
 
     }
 
     onClickFunction() {
         const position = this.getValue('cursorPos');
-        const raycaster = VARS.INPUTS_ENGINE.setClickRaycasterFromArbitraryPosition(position)
+        const raycaster = VARS.INPUTS_ENGINE.setCollisionRaycasterFromArbitraryPosition(position, new THREE.Vector3(0, VARS.MAX_SCENE_HEIGHT, 0.01).normalize())
         // const raycaster = VARS.INPUTS_ENGINE.setCursorRaycasterFromCamera();
         const intersects = [];
+        const uniquePointsIDs = [];
 
         this.points.raycast(raycaster, intersects);
-        let filteredIntersect = [...new Set(intersects)];
-        console.log(filteredIntersect);
-
+        // Filter Repeated Values
+        const unique = [...new Map(intersects.map(item => [item["index"], item])).values()]
         this.setVertexColors();
-
-        filteredIntersect.forEach(pointObject => {
+        unique.forEach(pointObject => {
             const index = pointObject.index;
             this.setActiveVertexColor(index);
         })
 
-        // console.log(intersects);
+        
     }
 
     setActiveVertexColor(vertexId) {

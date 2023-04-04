@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 import { TERRAIN_VALUES, VARS } from './Global';
 
-
-
 const inactive = 0;
 const pressed = 1;
 const held = 2;
@@ -50,18 +48,18 @@ export class InputEngine {
             ARROWDOWN: inactive
         };
 
-        this.clickRaycaster = new THREE.Raycaster();
-        this.cursorRaycaster = new THREE.Raycaster();
+        this.pointerRaycaster = new THREE.Raycaster();
+        this.collisionRaycaster = new THREE.Raycaster();
 
 
     }
 
     _init() {
-        this.clickRaycaster = new THREE.Raycaster();
-        this.cursorRaycaster = new THREE.Raycaster();
-        // this.cursorRaycaster.params.Points.threshold = 0.1;
-        this.cursorRaycaster.params.Points.threshold = (TERRAIN_VALUES.CURSOR_SIZE + 1.0) / 2.0;
-        this.clickRaycaster.params.Points.threshold = (TERRAIN_VALUES.CURSOR_SIZE) / 1.0;
+        this.pointerRaycaster = new THREE.Raycaster();
+        this.collisionRaycaster = new THREE.Raycaster();
+        // this.collisionRaycaster.params.Points.threshold = 0.1;
+        this.collisionRaycaster.params.Points.threshold = 0.25 //(TERRAIN_VALUES.CURSOR_SIZE) / 2.0;
+        this.pointerRaycaster.params.Points.threshold = (TERRAIN_VALUES.CURSOR_SIZE) / 1.0;
 
 
         this.setUpInputListeners();
@@ -204,7 +202,7 @@ export class InputEngine {
     }
 
     setCursorRaycasterFromCamera() {
-        const raycaster = this.cursorRaycaster;
+        const raycaster = this.collisionRaycaster;
         const mousePos = this.mousePosition;
         const camera = VARS.CAMERA;
         raycaster.setFromCamera(mousePos, camera);
@@ -212,18 +210,9 @@ export class InputEngine {
         return raycaster;
     }
 
-    setClickRaycasterFromCamera() {
-        const raycaster = this.clickRaycaster;
-        const mousePos = this.mousePosition;
-        const camera = VARS.CAMERA;
-        raycaster.setFromCamera(mousePos, camera);
-
-        return raycaster;
-    }
-
-    setClickRaycasterFromArbitraryPosition(position) {
-        const raycaster = this.clickRaycaster;
-        raycaster.set(position, new THREE.Vector3(0, 1, 0.01).normalize());
+    setCollisionRaycasterFromArbitraryPosition(position, direction) {
+        const raycaster = this.pointerRaycaster;
+        raycaster.set(position, direction.normalize());
         return raycaster;
     }
 
