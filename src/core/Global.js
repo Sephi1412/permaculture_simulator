@@ -20,6 +20,10 @@ export const VARS = {
     INPUTS_ENGINE: new InputEngine(),
 }
 
+export const TERRAIN_VALUES = {
+    CURSOR_SIZE: 3.0,
+}
+
 
 
 export function updateActors() {

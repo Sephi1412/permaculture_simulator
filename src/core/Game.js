@@ -43,7 +43,9 @@ export class Game {
 
     freeModeAnimationLoop() {
         if (VARS.FRAME_INTERVAL < VARS.GLOBAL_DELTA_TIME) {
+            // VARS.INPUTS_ENGINE.handleInputBuffer();
             updateActors();            
+            VARS.INPUTS_ENGINE.update();
             VARS.RENDERER.render(VARS.SCENE, VARS.CAMERA);
             this.setupNextRenderCycle();
             VARS.GLOBAL_DELTA_TIME = VARS.GLOBAL_DELTA_TIME % VARS.FRAME_INTERVAL;

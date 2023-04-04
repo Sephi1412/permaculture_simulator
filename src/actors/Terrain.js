@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { VARS } from '../core/Global';
+import { TERRAIN_VALUES, VARS } from '../core/Global';
 import { terrain_fragmentShader, terrain_VertexShader } from '../graphics/shaders/TerrainChunk';
 import { Actor } from './Actor';
 
@@ -17,7 +17,7 @@ export class Terrain extends Actor {
             widthSegments: { value: widthSegments },
             heightSegments: { value: heightSegments },
             cursorPos: { value: new THREE.Vector3() },
-            cursorRadius: { value: 1.0 },
+            cursorRadius: { value: TERRAIN_VALUES.CURSOR_SIZE },
         }
 
         this._init();
@@ -27,12 +27,18 @@ export class Terrain extends Actor {
         this.generateGeometry();
         this.generateMaterial();
         this.generateMesh();
+        this.setVertexColors();
+        this.generatePoints();
 
     }
 
     update() {
         if (VARS.INPUTS_ENGINE.mouseIsMoving) {
             this.projectCursorPosition();
+        }
+
+        if (VARS.INPUTS_ENGINE.keysArePressed("LEFT_CLICK") && VARS.INPUTS_ENGINE.heldTimers["LEFT_CLICK"] == 0.0) {
+            this.onClickFunction();
         }
     }
 
@@ -70,8 +76,26 @@ export class Terrain extends Actor {
         this.model = new THREE.Mesh(this.geometry, this.material);
     }
 
+    generatePoints() {
+        this.pointsMaterial = new THREE.PointsMaterial({ vertexColors: true });
+        this.points = new THREE.Points(this.geometry, this.pointsMaterial);
+
+
+    }
+
+    setVertexColors() {
+        const colors = [];
+        const geometry = this.geometry
+        const n_vertices = geometry.attributes.position.count;
+        for (let i = 0; i < n_vertices; i++) {
+            colors.push(1.0, 1.0, 1.0);
+        }
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+        geometry.attributes.color.needsUpdate = true;
+    }
+
     projectCursorPosition() {
-        const raycaster = VARS.INPUTS_ENGINE.setRaycasterFromCamera();
+        const raycaster = VARS.INPUTS_ENGINE.setCursorRaycasterFromCamera();
         const intersects = raycaster.intersectObject(this.model);
         if (intersects.length > 0) {
             const cursorPosition = new THREE.Vector3(
@@ -79,12 +103,41 @@ export class Terrain extends Actor {
                 intersects[0].point.y / 1,
                 intersects[0].point.z / 1
             );
+            // console.log(intersects);
 
 
             this.setValue('cursorPos', cursorPosition);
-            console.log(this.getValue('cursorPos'));
+            this.onClickFunction();
+            // console.log(this.getValue('cursorPos'));
         }
 
     }
+
+    onClickFunction() {
+        const position = this.getValue('cursorPos');
+        const raycaster = VARS.INPUTS_ENGINE.setClickRaycasterFromArbitraryPosition(position)
+        // const raycaster = VARS.INPUTS_ENGINE.setCursorRaycasterFromCamera();
+        const intersects = [];
+
+        this.points.raycast(raycaster, intersects);
+        let filteredIntersect = [...new Set(intersects)];
+        console.log(filteredIntersect);
+
+        this.setVertexColors();
+
+        filteredIntersect.forEach(pointObject => {
+            const index = pointObject.index;
+            this.setActiveVertexColor(index);
+        })
+
+        // console.log(intersects);
+    }
+
+    setActiveVertexColor(vertexId) {
+        this.geometry.attributes.color.setXYZ(vertexId, 1.0, 0.0, 0.0);
+    }
+
+
+
 }
 

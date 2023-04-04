@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { VARS } from './Global';
+import { TERRAIN_VALUES, VARS } from './Global';
 
 
 
@@ -52,25 +52,132 @@ export class InputEngine {
 
         this.clickRaycaster = new THREE.Raycaster();
         this.cursorRaycaster = new THREE.Raycaster();
-        // this.cursorRaycaster.params.Points.threshold = 0.1;
-        this.cursorRaycaster.params.Points.threshold = 2.0;
 
-        
+
     }
 
     _init() {
         this.clickRaycaster = new THREE.Raycaster();
         this.cursorRaycaster = new THREE.Raycaster();
         // this.cursorRaycaster.params.Points.threshold = 0.1;
-        this.cursorRaycaster.params.Points.threshold = 2.0;
+        this.cursorRaycaster.params.Points.threshold = (TERRAIN_VALUES.CURSOR_SIZE + 1.0) / 2.0;
+        this.clickRaycaster.params.Points.threshold = (TERRAIN_VALUES.CURSOR_SIZE) / 1.0;
+
 
         this.setUpInputListeners();
     }
+
+    update() {
+        const activeKeys = [];
+        const releasedKeys = [];
+        const inputBuffer = this.inputBuffer;
+
+        inputBuffer.forEach(key => {
+            if (this.keysAreReleased(key)) {
+                releasedKeys.push(key);
+            }
+
+            if (this.keysAreHeld(key)) {
+                this.heldTimers[key] += VARS.FRAME_INTERVAL;
+                activeKeys.push(key);
+            }
+
+            if (this.keysArePressed(key)) {
+                this.setKeyAsHeld(key)
+                activeKeys.push(key);
+            }
+        });
+
+        this.inputBuffer = activeKeys;
+        this.releasedKeys = releasedKeys;
+    }
+
+    handleInputBuffer() {
+        const ctrlState = this.keysAreActive("CONTROL");
+        const inputBuffer = this.inputBuffer;
+        const releasedKeys = this.releasedKeys;
+
+        if (ctrlState) {
+            // Place Holder
+        }
+        else {
+            if (this.mouseIsMoving) {
+                //
+            }
+
+            releasedKeys.forEach(key => {
+                switch (key) {
+                    case "LEFT_CLICK":
+                    case "RIGHT_CLICK":
+                    case "ARROWUP":
+                    case "ARROWDOWN":
+                    case "W":
+                    case "S":
+                    default:
+                        break;
+                }
+            });
+
+            inputBuffer.forEach(key => {
+                switch (key) {
+                    case "LEFT_CLICK":
+
+                        break;
+                    case "RIGHT_CLICK":
+
+                        break;
+                    case "ARROWUP":
+                    case "ARROWDOWN":
+                    case "W":
+                    case "S":
+                    default:
+                        break;
+                }
+            });
+        }
+    }
+
+
 
     handleCursorMovement(event) {
         this.mousePosition.x = event.offsetX / VARS.RENDERER.domElement.clientWidth * 2 - 1;
         this.mousePosition.y = -(event.offsetY / VARS.RENDERER.domElement.clientHeight) * 2 + 1;
         this.mouseIsMoving = true;
+    }
+
+    handleMouseInput(event) {
+        const mouseInput = event.button;
+        if (event.type === 'mousedown') {
+            switch (mouseInput) {
+                case 0: // Left Button
+                    this.setKeyAsPressed("LEFT_CLICK");
+                    break;
+                case 1: // Middle Button
+                    this.setKeyAsPressed("MIDDLE_CLICK");
+                    break;
+                case 2: // Right Button
+                    this.setKeyAsPressed("RIGHT_CLICK");
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        if (event.type === 'mouseup') {
+            switch (mouseInput) {
+                case 0: // Left Button
+                    this.setKeyAsReleased("LEFT_CLICK");
+                    break;
+                case 1: // Middle Button
+                    this.setKeyAsReleased("MIDDLE_CLICK");
+                    break;
+                case 2: // Right Button
+                    this.setKeyAsReleased("RIGHT_CLICK");
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     cursorIsActive(event) {
@@ -96,12 +203,27 @@ export class InputEngine {
         this.mouseIsMoving = false;
     }
 
-    setRaycasterFromCamera() {
+    setCursorRaycasterFromCamera() {
         const raycaster = this.cursorRaycaster;
         const mousePos = this.mousePosition;
         const camera = VARS.CAMERA;
         raycaster.setFromCamera(mousePos, camera);
 
+        return raycaster;
+    }
+
+    setClickRaycasterFromCamera() {
+        const raycaster = this.clickRaycaster;
+        const mousePos = this.mousePosition;
+        const camera = VARS.CAMERA;
+        raycaster.setFromCamera(mousePos, camera);
+
+        return raycaster;
+    }
+
+    setClickRaycasterFromArbitraryPosition(position) {
+        const raycaster = this.clickRaycaster;
+        raycaster.set(position, new THREE.Vector3(0, 1, 0.01).normalize());
         return raycaster;
     }
 
@@ -111,13 +233,108 @@ export class InputEngine {
         // document.addEventListener('keyup', (event) => this.handleKeyInputs(event));
         // document.addEventListener('keydown', (event) => this.handleKeyInputs(event));
 
-        // document.addEventListener('mouseup', (event) => this.handleMouseInput(event));
-        // document.addEventListener('mousedown', (event) => this.handleMouseInput(event));
+        document.addEventListener('mouseup', (event) => this.handleMouseInput(event));
+        document.addEventListener('mousedown', (event) => this.handleMouseInput(event));
 
         // target.addEventListener('wheel', (event) => this.handleMouseWheel(event));
 
         target.addEventListener('contextmenu', (event) => event.preventDefault());
         target.addEventListener('mouseover', (event) => this.cursorIsActive(event));
         target.addEventListener('mouseleave', (event) => this.cursorIsActive(event));
+    }
+
+    setKeyAsPressed(key) {
+        this.states[key] = pressed
+        this.inputBuffer.push(key);
+    }
+
+    setKeyAsInactive(key) { this.states[key] = inactive }
+    setKeyAsHeld(key) { this.states[key] = held }
+    setKeyAsReleased(key) { this.states[key] = released }
+
+    keysAreInactive(...keys) {
+        let state = false;
+        keys.forEach(key => {
+            state |= this.states[key] == inactive;
+        });
+        return state
+
+    }
+
+    keysArePressed(...keys) {
+        let state = false;
+        keys.forEach(key => {
+            state |= this.states[key] == pressed;
+        });
+        return state
+
+    }
+
+    keysAreHeld(...keys) {
+        let state = false;
+        keys.forEach(key => {
+            state |= this.states[key] == held;
+        });
+        return state
+    }
+
+    keysAreActive(...keys) {
+        let state = false;
+        let keyStates = { ...this.states };
+        keys.forEach(key => {
+            state |= keyStates[key] > inactive;
+        });
+        return state
+    }
+
+    keysAreReleased(...keys) {
+        let state = false;
+        keys.forEach(key => {
+            state |= this.states[key] === released;
+        });
+        return state
+    }
+
+    arrayKeysAreInactive(keys) {
+        let state = false;
+        keys.forEach(key => {
+            state |= this.states[key] == inactive;
+        });
+        return state
+
+    }
+
+    arrayKeysArePressed(keys) {
+        let state = false;
+        keys.forEach(key => {
+            state |= this.states[key] == pressed;
+        });
+        return state
+
+    }
+
+    arrayKeysAreHeld(keys) {
+        let state = false;
+        keys.forEach(key => {
+            state |= this.states[key] == held;
+        });
+        return state
+    }
+
+    arrayKeysAreActive(keys) {
+        let state = false;
+        let keyStates = { ...this.states };
+        keys.forEach(key => {
+            state |= keyStates[key] > inactive;
+        });
+        return state
+    }
+
+    arrayKeysAreReleased(keys) {
+        let state = false;
+        keys.forEach(key => {
+            state |= this.states[key] === released;
+        });
+        return state
     }
 }

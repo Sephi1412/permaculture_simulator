@@ -24,6 +24,7 @@ export class TerrainManager {
         });
         this.chunks[chunkId] = chunk;
         VARS.SCENE.add(chunk.model);
+        VARS.SCENE.add(chunk.points);
 
     }
 
