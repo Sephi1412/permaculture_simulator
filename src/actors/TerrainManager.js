@@ -49,7 +49,7 @@ export class TerrainManager {
                 this.selectedVertices[id] = [];
             });
             this.projectCursorPosition()
-            this.getVerticesOnSelectedArea();
+            this.getVerticesOnSelectedAreaWithArray();
         }
 
         const chunkIDs = Object.keys(this.chunks);
@@ -77,18 +77,34 @@ export class TerrainManager {
                 intersects[0].point.z / 1
             );
 
-            this.getVerticesOnSelectedArea();
+            // this.getVerticesOnSelectedArea();
         }
     }
 
     getVerticesOnSelectedArea() {
+        this.selectedVertices = {};
         const position = this.cursorPos;
         const raycaster = VARS.INPUTS_ENGINE.setCollisionRaycasterFromArbitraryPosition(position, new THREE.Vector3(0, VARS.MAX_SCENE_HEIGHT, 0.01).normalize())
         const intersectedPoints = raycaster.intersectObject(this.pointGroup, true);
         const uniques = [...new Map(intersectedPoints.map(item => [item["index"], item])).values()];
 
         uniques.forEach(point => {
+
             this.selectedVertices[point.object.geometry.name].push(point.index);
+        });
+
+        // console.log(this.selectedVertices);
+    }
+
+    getVerticesOnSelectedAreaWithArray() {
+        const position = this.cursorPos;
+        const raycaster = VARS.INPUTS_ENGINE.setCollisionRaycasterFromArbitraryPosition(position, new THREE.Vector3(0, VARS.MAX_SCENE_HEIGHT, 0.01).normalize())
+        const intersectedPoints = raycaster.intersectObject(this.pointGroup, true);
+        const uniques = [...new Map(intersectedPoints.map(item => [item["index"], item])).values()];
+
+        uniques.forEach(point => {
+            const id = point.object.geometry.name;
+            this.chunks[id].selectedVertices.push(point.index);
         });
 
         // console.log(this.selectedVertices);

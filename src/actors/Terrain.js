@@ -17,6 +17,7 @@ export class Terrain extends Actor {
         this.yOffset = yPos;
         this.zOffset = zPos;
         this.selectedVertices = [];
+        this.previousSelectedVertices = []
 
         this.uniforms = {
             width: { value: width },
@@ -46,12 +47,13 @@ export class Terrain extends Actor {
         if (VARS.INPUTS_ENGINE.mouseIsMoving) {
             this.cleanVertexSelection();
             this.setValue("cursorPos", VARS.MANAGERS.terrain.cursorPos);  // Get Cursor position from Manager
-            let selectedVertices = VARS.MANAGERS.terrain.selectedVertices[this.id];
-
-            selectedVertices.forEach((vertexId, index) => {
-                this.selectedVertices.push(vertexId);
+            // let selectedVertices = VARS.MANAGERS.terrain.selectedVertices[this.id];
+            let selectedVertices = this.selectedVertices
+            while (selectedVertices.length > 0) {
+                const vertexId = selectedVertices.pop();
                 this.setActiveVertexColor(vertexId);
-            });
+                this.previousSelectedVertices.push(vertexId);
+            }
             this.geometry.attributes.color.needsUpdate = true;
 
             
@@ -120,13 +122,13 @@ export class Terrain extends Actor {
     }
 
     cleanVertexSelection() {
-        const selectedVertices = this.selectedVertices;
+        const selectedVertices = this.previousSelectedVertices;
 		const geometry = this.geometry;
-		selectedVertices.forEach((vertexId) => {
-			geometry.attributes.color.setXYZ(vertexId, 1.0, 1.0, 1.0);
-		});
-
-		this.selectedVertices = [];
+        while(selectedVertices.length > 0) {
+            const vertexId = selectedVertices.pop();
+            geometry.attributes.color.setXYZ(vertexId, 1.0, 1.0, 1.0);
+        }
+			
 		geometry.attributes.color.needsUpdate = true;
 	}
 
