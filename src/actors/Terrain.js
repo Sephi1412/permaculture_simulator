@@ -5,12 +5,17 @@ import { Actor } from './Actor';
 
 
 export class Terrain extends Actor {
-    constructor({ id, width, height, widthSegments, heightSegments }) {
+    constructor({ chunkIndex, width, height, widthSegments, heightSegments, xPos = 0.0, yPos = 0.0, zPos = 0.0 }) {
+        const id = `terrain_chunk_${chunkIndex}`;
         super({ id: id })
+        this.chunkIndex = chunkIndex;
         this.width = width;
         this.height = height;
         this.widthSegments = widthSegments;
         this.heightSegments = heightSegments;
+        this.xOffset = xPos;
+        this.yOffset = yPos;
+        this.zOffset = zPos;
 
         this.uniforms = {
             width: { value: width },
@@ -19,6 +24,9 @@ export class Terrain extends Actor {
             heightSegments: { value: heightSegments },
             cursorPos: { value: new THREE.Vector3() },
             cursorRadius: { value: TERRAIN_VALUES.CURSOR_SIZE },
+            xOffset: { value: this.xOffset },
+            yOffset: { value: this.yOffset },
+            zOffset: { value: this.zOffset },
         }
 
         this._init();
@@ -34,18 +42,19 @@ export class Terrain extends Actor {
     }
 
     update() {
-        if (VARS.INPUTS_ENGINE.mouseIsMoving) {
-            this.projectCursorPosition();
-        }
+        // if (VARS.INPUTS_ENGINE.mouseIsMoving) {
+        //     this.projectCursorPosition();
+        // }
 
-        if (VARS.INPUTS_ENGINE.keysArePressed("LEFT_CLICK") && VARS.INPUTS_ENGINE.heldTimers["LEFT_CLICK"] == 0.0) {
-            this.onClickFunction();
-        }
+        // if (VARS.INPUTS_ENGINE.keysArePressed("LEFT_CLICK") && VARS.INPUTS_ENGINE.heldTimers["LEFT_CLICK"] == 0.0) {
+        //     this.onClickTestFunction();
+        // }
     }
 
     generateGeometry() {
         this.geometry = new THREE.PlaneGeometry(16, 16, 8, 8);
         this.geometry.rotateX(-Math.PI / 2)
+        this.geometry.applyMatrix4( new THREE.Matrix4().makeTranslation(this.xOffset, this.yOffset, this.zOffset) );
     }
 
     generateMaterial() {
@@ -75,13 +84,15 @@ export class Terrain extends Actor {
 
     generateMesh() {
         this.model = new THREE.Mesh(this.geometry, this.material);
+        this.model.name = this.id;
+        // this.model.position.x = this.xOffset;
+        // this.model.position.z = this.zOffset;
     }
 
     generatePoints() {
-        this.pointsMaterial = new THREE.PointsMaterial({ vertexColors: true, visible: false });
+        this.pointsMaterial = new THREE.PointsMaterial({ vertexColors: true, visible: true });
         this.points = new THREE.Points(this.geometry, this.pointsMaterial);
-
-
+        this.points.name = `${this.id}_points`
     }
 
     setVertexColors() {
@@ -105,38 +116,70 @@ export class Terrain extends Actor {
                 intersects[0].point.z / 1
             );
             
-
-
             this.setValue('cursorPos', cursorPosition);
-            this.onClickFunction();
-        }
 
+            this.getVerticesOnSelectedArea();
+        }
     }
 
-    onClickFunction() {
+    getVerticesOnSelectedArea() {
         const position = this.getValue('cursorPos');
         const raycaster = VARS.INPUTS_ENGINE.setCollisionRaycasterFromArbitraryPosition(position, new THREE.Vector3(0, VARS.MAX_SCENE_HEIGHT, 0.01).normalize())
-        // const raycaster = VARS.INPUTS_ENGINE.setCursorRaycasterFromCamera();
         const intersects = [];
         const uniquePointsIDs = [];
 
         this.points.raycast(raycaster, intersects);
-        // Filter Repeated Values
         const unique = [...new Map(intersects.map(item => [item["index"], item])).values()]
         this.setVertexColors();
         unique.forEach(pointObject => {
             const index = pointObject.index;
             this.setActiveVertexColor(index);
-        })
+        })   
+    }
 
-        
+    onClickTestFunction() {
+        const raycaster = VARS.INPUTS_ENGINE.setCursorRaycasterFromCamera();
+        const intersects = raycaster.intersectObject(this.model);
+        if (intersects.length > 0) {
+            console.log(intersects[0].object);
+        }
     }
 
     setActiveVertexColor(vertexId) {
         this.geometry.attributes.color.setXYZ(vertexId, 1.0, 0.0, 0.0);
     }
 
+    moveTo({xCoord=0.0, yCoord=0.0, zCoord=0.0}) {
+        if(xCoord !== 0.0) {
+            this.model.position.x = xCoord;
+        }
+        if(yCoord !== 0.0) {
+            this.model.position.y = yCoord;
+        }
+        if(zCoord !== 0.0) {
+            this.model.position.z = zCoord;
+        }
 
+        this.model.updateMatrix();
+    }
 
 }
 
+
+// class function projectCursorPosition() {
+//     const raycaster = VARS.INPUTS_ENGINE.setCursorRaycasterFromCamera();
+//     const intersects = raycaster.intersectObject(this.model);
+//     if (intersects.length > 0) {
+//         const cursorPosition = new THREE.Vector3(
+//             intersects[0].point.x / 1,
+//             intersects[0].point.y / 1,
+//             intersects[0].point.z / 1
+//         );
+        
+
+
+//         this.setValue('cursorPos', cursorPosition);
+//         this.onClickFunction();
+//     }
+
+// }

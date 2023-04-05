@@ -13,9 +13,9 @@ export class Game {
 
         this.initEngine();
         this.initActors();
-        
+
         VARS.RENDERER.setAnimationLoop(() => this.freeModeAnimationLoop());
-        
+
         // this.graphics.currentScene.add(this.plane);
 
         // // Points 
@@ -37,14 +37,16 @@ export class Game {
     initActors() {
         // Terrain;
         VARS.MANAGERS.terrain = new TerrainManager();
-        VARS.MANAGERS.terrain.createNewTerrain();
+        VARS.MANAGERS.terrain.createNewTerrainWithOffset({ xCoord: 0.0, zCoord: 0.0 });
+        VARS.MANAGERS.terrain.createNewTerrainWithOffset({ xCoord: 16.0, zCoord: 0.0 });
+        VARS.MANAGERS.terrain.createNewTerrainWithOffset({ xCoord: -16.0, zCoord: 0.0 });
         // VARS.GRAPHICS.currentScene.add(VARS.ACTORS.terrain.model);
     }
 
     freeModeAnimationLoop() {
         if (VARS.FRAME_INTERVAL < VARS.GLOBAL_DELTA_TIME) {
             // VARS.INPUTS_ENGINE.handleInputBuffer();
-            updateActors();            
+            updateActors();
             VARS.INPUTS_ENGINE.update();
             VARS.RENDERER.render(VARS.SCENE, VARS.CAMERA);
             this.setupNextRenderCycle();
@@ -56,14 +58,14 @@ export class Game {
 
     setupNextRenderCycle() {
         VARS.INPUTS_ENGINE.updateInputBuffer();
-        
+
     }
 
     getPoints() {
         const raycaster = VARS.INPUTS_ENGINE.setRaycasterFromCamera();
         const testArray = [];
         // const intersects = raycaster.intersectObject(this.points);
-        
+
 
         // if (intersects.length > 0) {
         //     console.log(intersects[0]);

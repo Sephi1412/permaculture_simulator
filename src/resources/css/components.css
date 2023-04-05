@@ -87,6 +87,20 @@
     border: 0px transparent;
 }
 
+.nav-tab-container {
+    /* background-color: #ffffff; */
+}
+
+.nav-tab-options {
+
+}
+
+.nav-tab-content {
+    /* background-color: #ffffff; */
+    color: white;
+}
+
+
 
 .toolbar-icon {
     width: 100%;

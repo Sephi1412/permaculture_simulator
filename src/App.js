@@ -12,5 +12,9 @@ import { OptionTabs } from './components/OptionTabs';
 import './resources/css/main.css';
 import './resources/css/components.css';
 import { Game } from './core/Game';
+import { HorizontalNavTabs } from './components/HorizontalNavTabs';
+import { generateMainMenu } from './screens/MenuSelection';
+import { generateScene } from './core/Main';
 
-// const game = new Game({mode: "FREE_MODE"});
+generateScene();
+
