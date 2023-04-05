@@ -45,6 +45,9 @@ export class TerrainManager {
 
     updateActors() {
         if (VARS.INPUTS_ENGINE.mouseIsMoving) {
+            Object.keys(this.chunks).forEach(id => {
+                this.selectedVertices[id] = [];
+            });
             this.projectCursorPosition()
             this.getVerticesOnSelectedArea();
         }
@@ -54,9 +57,9 @@ export class TerrainManager {
             this.chunks[chunkID].update();
         });
 
-        if (VARS.INPUTS_ENGINE.keysArePressed("LEFT_CLICK") && VARS.INPUTS_ENGINE.heldTimers["LEFT_CLICK"] == 0.0) {
-            this.testVerticesOnSelectedArea();
-        }
+        // if (VARS.INPUTS_ENGINE.keysArePressed("LEFT_CLICK") && VARS.INPUTS_ENGINE.heldTimers["LEFT_CLICK"] == 0.0) {
+        //     this.testVerticesOnSelectedArea();
+        // }
         // const chunksIDs = Object.keys(this.chunks);
         // chunksIDs.forEach(chunkID => {
         //     this.chunks[chunkID].update();
@@ -79,11 +82,16 @@ export class TerrainManager {
     }
 
     getVerticesOnSelectedArea() {
-        this.selectedVertices = {};
         const position = this.cursorPos;
         const raycaster = VARS.INPUTS_ENGINE.setCollisionRaycasterFromArbitraryPosition(position, new THREE.Vector3(0, VARS.MAX_SCENE_HEIGHT, 0.01).normalize())
         const intersectedPoints = raycaster.intersectObject(this.pointGroup, true);
-        this.selectedVertices = [...new Map(intersectedPoints.map(item => [item["index"], item])).values()]
+        const uniques = [...new Map(intersectedPoints.map(item => [item["index"], item])).values()];
+
+        uniques.forEach(point => {
+            this.selectedVertices[point.object.geometry.name].push(point.index);
+        });
+
+        // console.log(this.selectedVertices);
 
     }
 

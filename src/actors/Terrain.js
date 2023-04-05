@@ -46,16 +46,11 @@ export class Terrain extends Actor {
         if (VARS.INPUTS_ENGINE.mouseIsMoving) {
             this.cleanVertexSelection();
             this.setValue("cursorPos", VARS.MANAGERS.terrain.cursorPos);  // Get Cursor position from Manager
-            let selectedVertices = VARS.MANAGERS.terrain.selectedVertices;
-            console.log(selectedVertices);
+            let selectedVertices = VARS.MANAGERS.terrain.selectedVertices[this.id];
 
-            selectedVertices.forEach((vertex, index) => {
-                const parent = vertex.object.geometry.name;
-                if (parent === this.id) {
-                    const vertexId = selectedVertices.splice(index, 1)[0].index;
-                    this.selectedVertices.push(vertexId);
-                    this.setActiveVertexColor(vertexId);
-                }
+            selectedVertices.forEach((vertexId, index) => {
+                this.selectedVertices.push(vertexId);
+                this.setActiveVertexColor(vertexId);
             });
             this.geometry.attributes.color.needsUpdate = true;
 
