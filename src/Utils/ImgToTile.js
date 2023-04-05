@@ -32,14 +32,14 @@ function init() {
 	let imgWidth = img.width;
 	let imgHeight = img.height;
 	if (imgWidth > imgHeight) {
-				if (imgWidth > 128) {
-					imgHeight = imgHeight * (128 / imgWidth);
-					imgWidth = 128;
+				if (imgWidth > 256) {
+					imgHeight = imgHeight * (256 / imgWidth);
+					imgWidth = 256;
 				}
 			} else {
-				if (imgHeight > 128) {
-					imgWidth = imgWidth * (128 / imgHeight);
-					imgHeight = 128;
+				if (imgHeight > 256) {
+					imgWidth = imgWidth * (256 / imgHeight);
+					imgHeight = 256;
 				}
 			}
 	
@@ -100,13 +100,18 @@ function getTiles() {
 			tiles.push(getTile(xi * tileDim, yi * tileDim));
 		}
 	}
+	console.log(tiles);
 	return tiles;
 }
 
 //and draw with offset
 var offset = 1.1;
 function drawTiles(tiles) {
-	tiles.forEach((d,i) => ctx.putImageData(d, d.x * offset, d.y * offset));
+	let fragment;
+	tiles.forEach((d,i) => {
+		fragment = ctx.putImageData(d, d.x * offset, d.y * offset);
+		console.log(d);
+	});
 	
 	//more interesting effects are easy to do:
 	//tiles.forEach((d,i) => ctx.putImageData(d, d.x * i * 0.01, d.y * i * 0.01));
