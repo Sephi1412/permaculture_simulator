@@ -12,32 +12,18 @@ export class TerrainManager {
         this.heightSegments = 8;
         this.n_chunks = 0;
         this.max_chunks = 1;
-        this.chunks = [];
         this.planeGroup = new THREE.Group();
         this.pointGroup = new THREE.Group();
+        this.cursorPos = new THREE.Vector3(0.0, 0.0, 0.0);
+
+        this.chunks = {};
+        this.selectedVertices = {} // Collection of Selected Points on each chunk;
 
         VARS.SCENE.add(this.planeGroup);
         VARS.SCENE.add(this.pointGroup);
     }
 
-    createNewTerrain() {
-        const chunkId = `terrain_chunk_${this.n_chunks}`;
-        const chunk = new Terrain({
-            id: chunkId,
-            width: this.width,
-            height: this.height,
-            widthSegments: this.widthSegments,
-            heightSegments: this.heightSegments
-        });
-
-
-        this.planeGroup.add(chunk.model);
-        this.pointGroup.add(chunk.points);
-        this.chunks.push(chunk);
-        this.n_chunks += 1;
-    }
-
-    createNewTerrainWithOffset({ xCoord, zCoord }) {
+    createNewTerrainChunk({ xCoord = 0.0, yCoord = 0.0, zCoord = 0.0 }) {
         const chunk = new Terrain({
             chunkIndex: this.n_chunks,
             width: this.width,
@@ -45,21 +31,31 @@ export class TerrainManager {
             widthSegments: this.widthSegments,
             heightSegments: this.heightSegments,
             xPos: xCoord,
+            yCoord: yCoord,
             zPos: zCoord
         });
         // chunk.moveTo({ xCoord: xCoord, zCoord: zCoord })
         this.planeGroup.add(chunk.model);
         this.pointGroup.add(chunk.points);
-        console.log(this.pointGroup);
-        this.chunks.push(chunk);
+        this.chunks[chunk.id] = chunk;
+        this.selectedVertices[chunk.id] = [];
         this.n_chunks += 1;
-        // console.log(planeGroup);
-        // console.log(VARS.SCENE.children[3])
     }
+
 
     updateActors() {
         if (VARS.INPUTS_ENGINE.mouseIsMoving) {
             this.projectCursorPosition()
+            this.getVerticesOnSelectedArea();
+        }
+
+        const chunkIDs = Object.keys(this.chunks);
+        chunkIDs.forEach(chunkID => {
+            this.chunks[chunkID].update();
+        });
+
+        if (VARS.INPUTS_ENGINE.keysArePressed("LEFT_CLICK") && VARS.INPUTS_ENGINE.heldTimers["LEFT_CLICK"] == 0.0) {
+            this.testVerticesOnSelectedArea();
         }
         // const chunksIDs = Object.keys(this.chunks);
         // chunksIDs.forEach(chunkID => {
@@ -72,34 +68,34 @@ export class TerrainManager {
 
         const intersects = raycaster.intersectObject(this.planeGroup, true);
         if (intersects.length > 0) {
-            this.cursorPosition = new THREE.Vector3(
+            this.cursorPos = new THREE.Vector3(
                 intersects[0].point.x / 1,
                 intersects[0].point.y / 1,
                 intersects[0].point.z / 1
             );
 
-            // console.log(this.cursorPosition);
-
-            this.chunks.forEach(chunk => {
-                chunk.setValue("cursorPos", this.cursorPosition);
-            });
             this.getVerticesOnSelectedArea();
-            // 
         }
     }
 
     getVerticesOnSelectedArea() {
-        const position = this.cursorPosition;
+        this.selectedVertices = {};
+        const position = this.cursorPos;
         const raycaster = VARS.INPUTS_ENGINE.setCollisionRaycasterFromArbitraryPosition(position, new THREE.Vector3(0, VARS.MAX_SCENE_HEIGHT, 0.01).normalize())
-        // const intersects = [];
         const intersectedPoints = raycaster.intersectObject(this.pointGroup, true);
-        const unique = [...new Map(intersectedPoints.map(item => [item["index"], item])).values()]
-        console.log(unique);
-        // unique.forEach(element => {
-        //     console.log(element.object.name);
-        // });
-        // unique.forEach(pointObject => {
-            
-        // })
+        this.selectedVertices = [...new Map(intersectedPoints.map(item => [item["index"], item])).values()]
+
+    }
+
+
+    testVerticesOnSelectedArea() {
+        const position = this.cursorPos;
+        const raycaster = VARS.INPUTS_ENGINE.setCollisionRaycasterFromArbitraryPosition(position, new THREE.Vector3(0, VARS.MAX_SCENE_HEIGHT, 0.01).normalize())
+        const intersectedPoints = raycaster.intersectObject(this.pointGroup, true);
+        const uniques = [...new Map(intersectedPoints.map(item => [item["index"], item])).values()]
+        console.log(uniques);
+
+
+
     }
 }
