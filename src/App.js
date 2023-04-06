@@ -15,6 +15,24 @@ import { Game } from './core/Game';
 import { HorizontalNavTabs } from './components/HorizontalNavTabs';
 import { generateMainMenu } from './screens/MenuSelection';
 import { generateScene } from './core/Main';
+import { VARS } from './core/Global';
+import { loadImageFromInputField } from './Utils/ImageProcessing';
 
-generateScene();
+
+generateMainMenu();
+
+const target = document.getElementById("game-container");
+const imgContainer = el("div.d-flex w-100", [
+    el("br"),
+    el("img#test-image")
+]);
+target.appendChild(imgContainer);
+
+
+document.getElementById("generate-terrain-from-image-btn").addEventListener("click", (event) => {
+    loadImageFromInputField();
+})
+
+
+
 
