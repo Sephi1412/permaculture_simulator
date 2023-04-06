@@ -59,13 +59,14 @@ function resizeImg({ context, canvas, image }) {
 
     context.drawImage(image, 0, 0, imgWidth, imgHeight);
 
-    console.log(context);
+    let nWidthTiles = imgWidth / segmentsPerTile;
+    let nHeightTiles = imgHeight / segmentsPerTile;
 
     let sx = 0;
     let sy = 0;
     let sw = 128;
     let sh = 128;
-    const tile = context.getImageData(64, 0, 64, 64);
+    const tile = context.getImageData(segmentsPerTile * (nWidthTiles - 1), segmentsPerTile * (0), segmentsPerTile, segmentsPerTile);
     const imgContainer = document.getElementById("test-image");
     // const tile = context.getImageData(0, 0, 15, 15);
     // imgContainer.width = imgWidth;
@@ -80,8 +81,8 @@ function resizeImg({ context, canvas, image }) {
     tileContext.putImageData(tile, 0, 0)
 
     console.log(imgWidth, imgHeight, tile);
-    imgContainer.width = imgWidth;
-    imgContainer.height = imgHeight / 2;
+    imgContainer.width = imgWidth * 4;
+    imgContainer.height = imgHeight * 2;
     imgContainer.src = tileCanvas.toDataURL();
 
 
