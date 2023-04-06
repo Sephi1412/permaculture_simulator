@@ -66,37 +66,49 @@ function resizeImg({ context, canvas, image }) {
     let sy = 0;
     let sw = 128;
     let sh = 128;
-    const tile = context.getImageData(segmentsPerTile * (nWidthTiles - 1), segmentsPerTile * (0), segmentsPerTile, segmentsPerTile);
+    // const tile = context.getImageData(segmentsPerTile * (nWidthTiles - 1), segmentsPerTile * (nHeightTiles - 1), segmentsPerTile, segmentsPerTile);
     const imgContainer = document.getElementById("test-image");
     // const tile = context.getImageData(0, 0, 15, 15);
     // imgContainer.width = imgWidth;
     // imgContainer.height = imgHeight;
     // imgContainer.src = canvas.toDataURL();
 
+    // let tileCanvas = document.createElement('canvas');
+    // tileCanvas.style.display = "none"
+    // document.body.appendChild(tileCanvas);
+
+    // let tileContext = tileCanvas.getContext('2d');
+    // tileContext.putImageData(tile, 0, 0)
+
+    // console.log(imgWidth, imgHeight, tile);
+    // imgContainer.width = imgWidth * 4;
+    // imgContainer.height = imgHeight * 2;
+    // imgContainer.src = tileCanvas.toDataURL();
+
+    const tileData = [];
+
+    for (let j = 0; j < nHeightTiles; j++) {
+        for (let i = 0; i < nWidthTiles; i++) {
+
+            const sx = segmentsPerTile * i;
+            const sw = segmentsPerTile;
+            const sy = segmentsPerTile * j;
+            const sh = segmentsPerTile;
+            tileData.push(context.getImageData(sx, sy, sw, sh));
+        }
+    }
+
     let tileCanvas = document.createElement('canvas');
     tileCanvas.style.display = "none"
     document.body.appendChild(tileCanvas);
 
     let tileContext = tileCanvas.getContext('2d');
-    tileContext.putImageData(tile, 0, 0)
+    // console.log(tileData[0])
+    tileContext.putImageData(tileData[tileData.length - 1], 0, 0)
 
-    console.log(imgWidth, imgHeight, tile);
     imgContainer.width = imgWidth * 4;
     imgContainer.height = imgHeight * 2;
     imgContainer.src = tileCanvas.toDataURL();
-
-
-
-    // for(let j = 0; j < nHeightTiles; j++) {
-    //     for(let i = 0; i < nWidthTiles; i++) {
-
-    //         const sx = (segmentsPerTile * i);
-    //         const sw = (segmentsPerTile * (i+ 1));
-    //         const sy = (segmentsPerTile * j);
-    //         const sh = (segmentsPerTile * (j+ 1));
-    //         tileData.push(context.getImageData(sx, sy, sw, sh));
-    //     }
-    // }
     // // console.log(tileData);
     // // console.log(canvas.toDataURL());
     // const imgContainer = document.getElementById("test-image");
