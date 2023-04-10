@@ -36,6 +36,8 @@ export const terrain_fragmentShader = /*GLSL*/ `
 
     uniform vec3 cursorPos;
     uniform float cursorRadius;
+
+    uniform vec3 lightDirection;
     
     in vec3 vPos;
     in vec3 vNormal;
@@ -48,8 +50,17 @@ export const terrain_fragmentShader = /*GLSL*/ `
         float Uo = float(length(vPos - cursorPos));
         vec4 color = mix(vec4(0.0, 0.0, 0.0, 1.0), vec4(1.0, 1.0, 1.0, 0.75), float(cursorRadius - 0.1 < Uo &&  Uo < cursorRadius + 0.1));
     
+
+        vec4 normalAmp = normalize(vec4(vNormal, 1.0));
+        vec3 norm = normalize(vNormal);
+        vec3 lightColor = vec3(1.0, 1.0, 1.0);
+        vec3 ld = normalize(vPos - lightDirection);
+        float nDotL = clamp(dot(-lightDirection, norm), 0.85, 1.0);
+
         pixelColor += color;
+
+        vec3 diffuseColor = lightColor * nDotL * vec3(pixelColor.x, pixelColor.y, pixelColor.z);
             
-        out_FragColor = pixelColor;
+        out_FragColor = vec4(diffuseColor.x, diffuseColor.y, diffuseColor.z, 1.0);
     }
 `;

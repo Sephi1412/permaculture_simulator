@@ -21,6 +21,37 @@ export class TerrainManager {
 
         VARS.SCENE.add(this.planeGroup);
         VARS.SCENE.add(this.pointGroup);
+        this.createSceneTerrain();
+    }
+
+    createSceneTerrain() {
+        const sceneCreationData = VARS.MENU_SELECTION_DATA.data;
+        console.log(sceneCreationData);
+        const tilesData = sceneCreationData.tiles;
+
+        tilesData.forEach(tileData => {
+            const imageData = tileData.imgData;
+            
+            const chunk = new Terrain({
+                chunkIndex: this.n_chunks,
+                width: imageData.width - 1,
+                height: imageData.height - 1,
+                widthSegments: imageData.width - 1,
+                heightSegments: imageData.height - 1,
+                xPos: tileData.column * imageData.width,
+                zPos: tileData.row * imageData.height,
+            })
+
+            chunk.applyHeightmapData(imageData.data);
+
+            this.planeGroup.add(chunk.model);
+            this.pointGroup.add(chunk.points);
+            this.chunks[chunk.id] = chunk;
+            this.selectedVertices[chunk.id] = [];
+            this.n_chunks += 1;
+
+
+        });
     }
 
     createNewTerrainChunk({ xCoord = 0.0, yCoord = 0.0, zCoord = 0.0 }) {
@@ -31,7 +62,7 @@ export class TerrainManager {
             widthSegments: this.widthSegments,
             heightSegments: this.heightSegments,
             xPos: xCoord,
-            yCoord: yCoord,
+            yPos: yCoord,
             zPos: zCoord
         });
         // chunk.moveTo({ xCoord: xCoord, zCoord: zCoord })
@@ -41,7 +72,6 @@ export class TerrainManager {
         this.selectedVertices[chunk.id] = [];
         this.n_chunks += 1;
     }
-
 
     updateActors() {
         if (VARS.INPUTS_ENGINE.mouseIsMoving) {

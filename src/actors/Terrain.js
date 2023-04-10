@@ -29,6 +29,7 @@ export class Terrain extends Actor {
             xOffset: { value: this.xOffset },
             yOffset: { value: this.yOffset },
             zOffset: { value: this.zOffset },
+            lightDirection: {value: VARS.GRAPHICS.light.position },
         }
 
         this._init();
@@ -187,6 +188,22 @@ export class Terrain extends Actor {
         }
 
         this.model.updateMatrix();
+    }
+
+    applyHeightmapData(data) {
+        // console.log(data);
+        const geometryVertices = this.geometry.attributes.position;
+        for (let i = 0; i < data.length; i += 4) {
+            let r = data[i];
+            let g = data[i + 1];
+            let b = data[i + 2];
+
+            const height = ((r + g + b) / 30);
+            
+            geometryVertices.setY(i/4, height);
+        }
+
+        this.geometry.needsUpdate = true;
     }
 
 }

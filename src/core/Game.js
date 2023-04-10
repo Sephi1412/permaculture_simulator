@@ -37,9 +37,10 @@ export class Game {
     initActors() {
         // Terrain;
         VARS.MANAGERS.terrain = new TerrainManager();
-        VARS.MANAGERS.terrain.createNewTerrainChunk({ xCoord: 0.0, zCoord: 0.0 });
-        VARS.MANAGERS.terrain.createNewTerrainChunk({ xCoord: 16.0, zCoord: 0.0 });
-        VARS.MANAGERS.terrain.createNewTerrainChunk({ xCoord: -16.0, zCoord: 0.0 });
+        // VARS.MANAGERS.terrain.createSceneTerrain();
+        // VARS.MANAGERS.terrain.createNewTerrainChunk({ xCoord: 0.0, zCoord: 0.0 });
+        // VARS.MANAGERS.terrain.createNewTerrainChunk({ xCoord: 16.0, zCoord: 0.0 });
+        // VARS.MANAGERS.terrain.createNewTerrainChunk({ xCoord: -16.0, zCoord: 0.0 });
         // VARS.GRAPHICS.currentScene.add(VARS.ACTORS.terrain.model);
     }
 

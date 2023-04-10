@@ -1,5 +1,8 @@
 import { el } from "redom";
 import { HorizontalNavTabs } from "../components/HorizontalNavTabs";
+import { Game } from "../core/Game";
+import { VARS } from "../core/Global";
+import { generateTilesFromImage, loadImageFromInputField } from "../Utils/ImageProcessing";
 
 
 export function generateMainMenu() {
@@ -20,16 +23,20 @@ export function generateMainMenu() {
 
 
 function optionGenerateFromImage() {
+    const button = el("button.mt-1 btn btn-primary form-contro", {
+        id: "generate-terrain-from-image-btn",
+        name: "image",
+        type: "file",
+        textContent: "Select Image"
+    });
+
+    button.addEventListener("click", event => handleImageSelection())
+
     return el("div", [
         el("p", "Use an image as a template to generate a terrain"),
         el("div", [
             el("input.form-control mt-1", { type: "file", id: "terrain-image", accept: ".jpg, .jpeg, .png" }),
-            el("button.mt-1 btn btn-primary form-contro", {
-                id: "generate-terrain-from-image-btn",
-                name: "image",
-                type: "file",
-                textContent: "Select Image"
-            })
+            button
         ])
     ])
 }
@@ -60,4 +67,30 @@ function optionGenerateSimplePlane() {
         el("p", "Create a simple plane that can be modified in this application"),
         dimensionForm,
     ])
+}
+
+function handleImageSelection() {
+    let imgFile = document.getElementById('terrain-image').files[0];
+    let reader = new FileReader();
+    let image = new Image();
+
+    let canvas = document.createElement('canvas');
+    canvas.style.display = "none"
+    document.body.appendChild(canvas);
+    let context = canvas.getContext('2d');
+
+    reader.readAsDataURL(imgFile);
+
+    reader.onload = function (e) {
+        image.src = reader.result;
+        image.onload = function () {
+            const tiles = generateTilesFromImage({ context, canvas, image })
+            const menuData = {
+                generationType: "img",
+                data: tiles,
+            }
+            VARS.GAME = new Game({ mode: "FREE_MODE", menuSelectionData: menuData });
+        }
+    }
+    
 }

@@ -1,36 +1,7 @@
 import { el } from "redom";
 import { VARS } from "../core/Global";
 
-
-
-export function loadImageFromInputField() {
-
-    /* 
-        1) Load an image
-        2) Rescale it so is not too big
-        3) Force it so it's dimensions are multiples of 16
-    */
-    let imgFile = document.getElementById('terrain-image').files[0];
-    let reader = new FileReader();
-    let image = new Image();
-
-    let canvas = document.createElement('canvas');
-    canvas.style.display = "none"
-    document.body.appendChild(canvas);
-    let context = canvas.getContext('2d');
-
-    reader.readAsDataURL(imgFile);
-
-    reader.onload = function (e) {
-        image.src = reader.result;
-        image.onload = function () {
-            resizeImg({ context, canvas, image })
-        }
-    }
-}
-
-
-function resizeImg({ context, canvas, image }) {
+export function generateTilesFromImage({ context, canvas, image }) {
     let imgWidth = image.width;
     let imgHeight = image.height;
     let segmentsPerTile = VARS.SEGMENTS_PER_TILE;
@@ -85,7 +56,7 @@ function resizeImg({ context, canvas, image }) {
     // imgContainer.height = imgHeight * 2;
     // imgContainer.src = tileCanvas.toDataURL();
 
-    const tileData = [];
+    const tiles = [];
 
     for (let j = 0; j < nHeightTiles; j++) {
         for (let i = 0; i < nWidthTiles; i++) {
@@ -94,21 +65,35 @@ function resizeImg({ context, canvas, image }) {
             const sw = segmentsPerTile;
             const sy = segmentsPerTile * j;
             const sh = segmentsPerTile;
-            tileData.push(context.getImageData(sx, sy, sw, sh));
+            const tileData = context.getImageData(sx, sy, sw, sh);
+            tiles.push({
+                imgData: tileData,
+                column: i,
+                row: j,
+            });
         }
     }
 
-    let tileCanvas = document.createElement('canvas');
-    tileCanvas.style.display = "none"
-    document.body.appendChild(tileCanvas);
+    return {
+        nWidthTiles: nWidthTiles,
+        nHeightTiles: nHeightTiles,
+        segmentsPerTile: segmentsPerTile,
+        tiles: tiles,
 
-    let tileContext = tileCanvas.getContext('2d');
+    };
+    // console.log(tiles);
+
+    // let tileCanvas = document.createElement('canvas');
+    // tileCanvas.style.display = "none"
+    // document.body.appendChild(tileCanvas);
+
+    // let tileContext = tileCanvas.getContext('2d');
     // console.log(tileData[0])
-    tileContext.putImageData(tileData[tileData.length - 1], 0, 0)
+    // tileContext.putImageData(tileData[tileData.length - 1], 0, 0)
 
-    imgContainer.width = imgWidth * 4;
-    imgContainer.height = imgHeight * 2;
-    imgContainer.src = tileCanvas.toDataURL();
+    // imgContainer.width = imgWidth * 4;
+    // imgContainer.height = imgHeight * 2;
+    // imgContainer.src = tileCanvas.toDataURL();
     // // console.log(tileData);
     // // console.log(canvas.toDataURL());
     // const imgContainer = document.getElementById("test-image");

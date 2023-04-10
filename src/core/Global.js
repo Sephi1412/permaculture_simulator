@@ -10,14 +10,16 @@ export const VARS = {
         MOUSE_ON_GAME: true,
         MENU_IS_OPEN: false,
     },
-    MAX_IMG_SIZE: 128,
+    MAX_IMG_SIZE: 512,
     SEGMENTS_PER_TILE: 16,
     MAX_SCENE_HEIGHT: 256, // Default Values
     MIN_SCENE_HEIGHT: -256, // Default Values
     MENUS: {},
     ACTORS: {},
     MANAGERS: {},
-    MENU_SELECTION_DATA: {},
+    MENU_SELECTION_DATA: {
+        TILE_DATA: [],
+    },
     RENDERER: null,
     SCENE: null,
     GRAPHICS: new GraphicsEngine(),
